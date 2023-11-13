@@ -16,7 +16,7 @@ function Nav() {
           content="width=device-width, initial-scale=1.0, viewport-fit=cover"
         />
       </Head>
-      <nav className="flex justify-center w-auto gap-10 p-5 bg-red-400 text-white">
+      <nav className="flex justify-center w-auto gap-10 p-5 bg-brown-500 text-white">
         <Link href="/">Home</Link>
         <Link href="/profile">Profile</Link>
         <Link href="/admin">Admin</Link>
