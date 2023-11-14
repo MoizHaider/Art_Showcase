@@ -1,0 +1,10 @@
+
+module.exports = {
+    homeLoadQuery: ()=>{
+        return{[{
+
+        }]
+            
+        }
+    }
+}

@@ -1,0 +1,6 @@
+#ignore all nodemodules
+node_modules
+*.jpg
+*.png
+*.psd
+*.fig

@@ -1,0 +1,7 @@
+@tailwind base;
+@taiwind components;
+@tailwind utilities;
+
+.body{
+    padding: 0;
+}
