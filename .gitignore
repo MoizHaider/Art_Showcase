@@ -1,7 +1,7 @@
 #ignore all nodemodules
 node_modules
-*.jpg
-*.png
 *.psd
 *.fig
 *.docx
+*.env.local
+Additional-Files
