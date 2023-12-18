@@ -1,24 +1,22 @@
 import React from "react";
 import Image from "next/image";
 
-function Comment(props) {
-  console.log("url ", props.profilePicUrl);
-  const imgUrl = "http://localhost:8080/" + props.profilePicUrl;
-
+function Comment({commentData}) {
+  const imgUrl = "http://localhost:8080/" + commentData.userData.profilePicUrl;
+  console.log("cmnt ", commentData)
   return (
-    <>
-      <div className="flex justify-between">
-        <div className="flex items-center">
-          <Image src={imgUrl} width={50} height={50} />
-          <div>
-            {props.name}
-            <div>{props.text}</div>
-          </div>
-        </div>
+<div className="sm:flex justify-between p-4 border-b border-gray-300">
+  <div className="sm:flex items-center space-x-4">
+    <Image src={imgUrl} width={50} height={50} className="rounded-full" />
+    <div>
+      <p className="font-bold">{commentData.userData.name}</p>
+      <p className="text-gray-600">{commentData.text}</p>
+    </div>
+  </div>
 
-        <button>Delete</button>
-      </div>
-    </>
+  <button className="text-red-500">Delete</button>
+</div>
+
   );
 }
 

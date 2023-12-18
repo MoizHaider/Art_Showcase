@@ -2,16 +2,17 @@
 import React from "react";
 import Link from "next/link";
 import Head from "next/head";
+import cookie from 'cookie-cutter';
 
 
 function Nav() {
  
   const onBtnClickHandler = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("email");
-    localStorage.removeItem("name");
-    localStorage.removeItem("profilePicUrl")
+    cookie.set("token", "");
+    cookie.set("userId", "");
+    cookie.set("email", "");
+    cookie.set("name", "")
+    cookie.set("profilePicUrl", "")
   };
   return (
     <>

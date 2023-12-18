@@ -35,7 +35,6 @@ const loginFun = (event) => {
   })
     .then((response) => response.json())
     .then((resData) => {
-      console.log("res ", resData)
       cookie.set("token", resData.data.login.token);
       cookie.set("userId", resData.data.login.userData._id);
       cookie.set("email", email);

@@ -29,7 +29,7 @@ function ProfileDataInputSection({ type }) {
       }
       localStorage.removeItem("email"); //In fetch req if there is an http error these lines will run,
       localStorage.removeItem("_id"); // but if a network error then these line will not run and catch block will execute
-      router.replace("/profile")
+      router.replace("/login")
     } catch (err) {
       console.log(err);
     }

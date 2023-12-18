@@ -4,14 +4,14 @@ import { useSelector } from "react-redux";
 import Post from "../Post/Post";
 export default function NewPost(props) {
   const postsData = useSelector((state) => state.postReducer.posts);
-  
+  console.log("running client")
   return (
     <>
       {postsData.length > 0
         ? postsData.map((post) => (
             <Post
               type="userPosts"
-              userData={props.data.userData}
+              userData={props.userData}
               postId={post._id}
               title={post.title}
               description={post.description}

@@ -18,8 +18,6 @@ export default async function GetProfilePosts( page, userId, token, initialLoad)
               about
               badges
               events
-              followersCount
-              followingCount
             }
             posts{
               _id
@@ -78,11 +76,14 @@ export default async function GetProfilePosts( page, userId, token, initialLoad)
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
+      "Cache-Control": "no-cache"
     },
     body: JSON.stringify(graphqlQuery),
   });
   const profileData = await response.json();
+  console.log("load data ", profileData)
 
   const data = initialLoad == true ? profileData.data.profileLoadQuery: profileData.data.getProfilePosts.posts;
+  console.log("profile Data ", data)
   return data;
 }
