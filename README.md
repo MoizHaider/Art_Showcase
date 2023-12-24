@@ -3,12 +3,6 @@
 ## Description
 Full stack web application built using MERN Stack. The application allows uses to share their art work and react on others artworks. 
 
-## Remaining Features
-* Page Styling
-* Profile Search Implementation
-* Adming Functionality
-* Uploading Events Functionality
-
 ## Installation
 
 1. Clone the repository:
