@@ -44,14 +44,14 @@ exports.addNewPost = async (req, res, next) => {
   const description = req.get("description");
   const newPost = {
     urls: postUrls,
-    createionDate: new Date().toLocaleDateString(),
+    creationDate: new Date().toLocaleDateString(),
     likesCount: 0,
     commentsCount: 0,
     saveCount: 0,
     title: title,
     description: description,
     likes: [],
-    score: 500, //Initial Score for the latest posts 
+    score: 500, //Initial Score for the latest posts
     comments: [],
     user: {
       _id: objId,
@@ -60,7 +60,6 @@ exports.addNewPost = async (req, res, next) => {
       profilePicUrl: profilePicUrl
     },
   };
-  console.log("server post", newPost)
   const db = dbConnect();
   let response = {
     postId: null,
@@ -80,6 +79,8 @@ exports.addNewPost = async (req, res, next) => {
           },
         }
       );
-      res.json(postInsrtRes);
+      
+      newPost._id = postInsrtRes.insertedId.toString()
+      res.json(newPost);
     next();
 };

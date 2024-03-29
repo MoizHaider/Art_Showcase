@@ -1,9 +1,8 @@
 "use server";
 
 export default async function CreatePost(formData, token, userData, postInfo, imgNames) {
-  console.log("running serverrrrrrrrrrrrrrrrr");
 
-  const response = await fetch("http://localhost:8080/add-post", {
+  const response = await fetch(`${process.env.BACKEND_URL}/add-post`, {
     method: "post",
     headers: {
       Authorization: "Bearer " + token,
@@ -17,22 +16,12 @@ export default async function CreatePost(formData, token, userData, postInfo, im
     },
     body: formData,
   });
-  console.log("res", response);
   if (!response.ok) {
     throw new Error("Http error! status: ${response.status}");
   }
   const result = await response.json();
   
-  const postData = {
-    _id: result.insertedId,
-    urls: postInfo.imgUrls,
-    title: postInfo.title,
-    description: postInfo.description,
-    likeCount: 0,
-    commentCount: 0,
-    saveCount: 0,
-    creationData: new Date().toLocaleDateString(),
-  };
+
   
-  return postData;
+  return result;
 }

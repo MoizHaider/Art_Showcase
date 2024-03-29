@@ -42,11 +42,11 @@ function PostBtns(props) {
   };
   const heartFill = isLiked
     ? "fill-red-300 border-none"
-    : "stroke-black stroke-[1px] fill-white";
+    : "stroke-black  fill-white";
 
   return (
-    <div className={`flex justify-between mt-[2em] ${props.className}`}>
-      <div className="flex gap-x-3">
+    <div className={`flex  justify-between  ${props.className}`}>
+      <div className="flex md:gap-x-3">
         <button
           type="button"
           onClick={onLikeClickHandler}
@@ -63,11 +63,11 @@ function PostBtns(props) {
             viewBox="0 0 24 24"
             width="24"
             xmlns="http://www.w3.org/2000/svg"
-            className={`${heartFill} w-[40px] h-[40px] stroke-[1.5px]`}
+            className={`${heartFill} w-[25px] h-[25px] sm:w-[30px] sm:h-[30px] md:w-[35px] md:h-[35px] stroke-[1.5px]`}
           >
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
-          <div>{likesCount} likes</div>
+          <div className="text-sm md:text-md">{likesCount} likes</div>
         </button>
         <button type="button" className = "border-none mb-5" onClick={onCommentClickHandler}>
         <svg
@@ -80,7 +80,7 @@ function PostBtns(props) {
           viewBox="0 0 512 512"
           // style="enable-background:new 0 0 512 512"
           xmlSpace="preserve"
-          className = "w-[40px] h-[40px] stroke-2"
+          className = "w-[25px] h-[25px] sm:w-[30px] sm:h-[30px]  md:w-[35px] md:h-[35px] stroke-2 object-cover"
         >
           <g>
             <path

@@ -2,9 +2,7 @@
 import React from 'react'
 
 export default async function delComment(token, postId, commentId) {
-  console.log("token", token)
-  console.log("postId", postId)
-  console.log("commentId", commentId)
+
     const graphqlQuery = {
         query: `mutation delCommnentQuery( $postId: ID, $commentId: ID){
                 delComment(postId: $postId, commentId: $commentId)
@@ -14,7 +12,7 @@ export default async function delComment(token, postId, commentId) {
             commentId
         }
     }
-    const response = await fetch("http://localhost:8080/graphql", {
+    const response = await fetch(`${process.env.BACKEND_URL}/graphql`, {
       method: "post",
       headers: {
         Authorization: "Bearer " + token,

@@ -22,7 +22,7 @@ export default async function getComments(token, postId, userId, page, newCommen
       newComments: newCommentsIds
     },
   };
-  const response = await fetch("http://localhost:8080/graphql", {
+  const response = await fetch(`${process.env.BACKEND_URL}/graphql`, {
     method: "post",
     cache: "no-store",
     headers: {

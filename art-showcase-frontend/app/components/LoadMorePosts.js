@@ -8,15 +8,14 @@ import Post from "./Post/Post";
 import GetHomePosts from "@/ServerActions/GetHomePosts";
 
 function LoadMorePosts(props) {
-  // Due to some error the tokken field becaame an object containing userId and location fields too
   const [profilePagesLoaded, setProfilePagesLoaded] = useState(1);
   const [homePagesLoaded, setHomePagesLoaded] = useState(1);
   const [profilePosts, setProfilePosts] = useState([]);
   const [homePosts, setHomePosts] = useState([]);
-
-  const [newPosts, setNewPosts] = useState([]); //To render spinner
+  const [show, setShow] = useState(true);
 
   const { ref, inView } = useInView();
+
   const profilePostsFun = async () => {
     const nextPage = profilePagesLoaded + 1;
     const newFetchedPosts =
@@ -25,7 +24,8 @@ function LoadMorePosts(props) {
       return [...posts, ...newFetchedPosts];
     });
     setProfilePagesLoaded((pagesLoad) => pagesLoad + 1);
-    setNewPosts(newFetchedPosts);
+
+    !(newFetchedPosts.length > 0) ? setShow(false) : null;
   };
 
   const homePostsFun = async () => {
@@ -36,7 +36,8 @@ function LoadMorePosts(props) {
       props.token,
       false
     );
-    setNewPosts(newFetchedPosts);
+
+    !(newFetchedPosts.length > 0) ? setShow(false) : null;
     setHomePosts((posts) => [...posts, ...newFetchedPosts]);
     setHomePagesLoaded((page) => page + 1);
   };
@@ -90,7 +91,7 @@ function LoadMorePosts(props) {
             />
           ))
         : null}
-      {newPosts.length > 0 ? (
+      {show ? (
         <div ref={ref}>
           <Spinner />
         </div>

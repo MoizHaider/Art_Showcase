@@ -86,7 +86,12 @@ type loginData{
 type postsQuery {
   posts: [Post]
 }
-
+type searchRes{
+  _id: ID!
+  name: String
+  profilePicUrl: String
+  title: String
+}
 type RootMutation{
   signup(email: String!, password: String!, confirmPassword: String!): signupData!
   likePost(liked: Boolean, postId: ID!, userId: ID): String!
@@ -104,6 +109,8 @@ type RootQuery{
   getHomePosts(userId: ID, page: Int, limit: Int): postsQuery
 
   getComments(postId: ID, userId: ID, page: Int, newComments: [ID]): [Comment]
+
+  search(query: String): [searchRes]
 }
   schema{
     query: RootQuery

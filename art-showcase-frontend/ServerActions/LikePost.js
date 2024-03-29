@@ -14,7 +14,7 @@ export default async function LikePost(token, postId, userId, liked) {
     },
   };
 
-    const response = await fetch("http://localhost:8080/graphql", {
+    const response = await fetch(`${process.env.BACKEND_URL}/graphql`, {
       method: "post",
       headers: {
         Authorization: "Bearer " + token,

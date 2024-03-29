@@ -1,7 +1,7 @@
 "use server";
 //------------------------------------------------------------- Function ---------------------------------------
 export default async function GetProfilePosts( page, userId, token, initialLoad) {
-  console.log("running")
+
   let graphqlQuery;
   if (initialLoad) {
     graphqlQuery = {
@@ -29,6 +29,12 @@ export default async function GetProfilePosts( page, userId, token, initialLoad)
               title
               description
               liked
+              user{
+                _id
+                email
+                name
+                profilePicUrl
+              }
             }
           }
         }`,
@@ -71,7 +77,7 @@ export default async function GetProfilePosts( page, userId, token, initialLoad)
     };
   }
 
-  const response = await fetch("http://localhost:8080/graphql", {
+  const response = await fetch(`${process.env.BACKEND_URL}/graphql`, {
     method: "post",
     headers: {
       Authorization: "Bearer " + token,
@@ -80,10 +86,9 @@ export default async function GetProfilePosts( page, userId, token, initialLoad)
     },
     body: JSON.stringify(graphqlQuery),
   });
-  const profileData = await response.json();
-  console.log("load data ", profileData)
 
+  const profileData = await response.json();
   const data = initialLoad == true ? profileData.data.profileLoadQuery: profileData.data.getProfilePosts.posts;
-  console.log("profile Data ", data)
+
   return data;
 }

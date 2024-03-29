@@ -25,7 +25,7 @@ function Auth({ children }) {
       _id: userId,
     },
   };
-  fetch("http://localhost:8080/graphql", {
+  fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",

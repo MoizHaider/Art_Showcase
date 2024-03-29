@@ -11,9 +11,7 @@ export const postSlice = createSlice({
     initialState,
     reducers:{
          addPost(state, action){
-            console.log("Store state ", state.posts)
             state.posts.push(action.payload)
-
          },
 
     }

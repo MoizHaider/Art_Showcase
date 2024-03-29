@@ -9,6 +9,8 @@ function CommentSection(props) {
   const name = cookie.get("name");
   const _id = cookie.get("userId");
   const profilePicUrl = cookie.get("profilePicUrl");
+  const [comment, setComment] = useState()
+
 
   const addClickHandler = async (event) => {
     event.preventDefault();
@@ -30,6 +32,7 @@ function CommentSection(props) {
         profilePicUrl,
       },
     };
+    setComment("")
     props.setNewComments((prevComments) => [commentsData, ...prevComments]);
   };
 
@@ -44,11 +47,13 @@ function CommentSection(props) {
             type="text"
             placeholder="Add a Comment"
             name="comment"
-            className="flex-1 p-2 border border-gray-300 rounded-full "
+            className="flex-1 p-2 text-sm md:text-lg  border border-gray-300 rounded-full "
+            value = {comment}
+            onChange={(e)=>{setComment(e.target.value)}}
           />
           <button
             type="submit"
-            className="bg-primary text-text hover:bg-accent hover:text-white px-4 py-2 rounded-full"
+            className="bg-primary text-sm md:text-lg hover:bg-accent hover:text-white px-4 py-1 md:px-4 md:py-2 rounded-full"
           >
             Post
           </button>

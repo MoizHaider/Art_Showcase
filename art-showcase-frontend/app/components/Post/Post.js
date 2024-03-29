@@ -4,68 +4,67 @@ import PostBtns from "./PostBtns";
 import CommentSection from "./CommentSection";
 import Image from "next/image";
 import Comments from "./Comments";
+import Link from "next/link";
 
 function Post(props) {
   //render list of data revieved from page.js
-  console.log("posts ", props);
   const token = props.token;
   const imgRef = useRef();
   const [isLandscape, setIsLandscape] = useState(null);
-
+  const [imageWidth, setImgWidth] = useState(0);
   const [renderCommentSec, setRenderCommentSec] = useState(false);
   const [newComments, setNewComments] = useState([]); //Front-end Comments Data
   const [commentsData, setCommentsData] = useState([]);
   const [commentPageLoaded, setCommentPageLoaded] = useState(1);
-  console.log("backend comments data ", commentsData);
+
   let imgUrl;
-  if (props.server) {
-    imgUrl = "http://localhost:8080/" + props.urls[0];
-  } else {
-    imgUrl = props.urls[0];
-  }
+
+  imgUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/` + props.urls[0];
+
   let profilePicUrl;
-  if (props.server) {
-    profilePicUrl = "http://localhost:8080/" + props.userData.profilePicUrl;
-  } else {
-    profilePicUrl = props.userData.profilePicUrl;
-  }
+
+  profilePicUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/` + props.userData.profilePicUrl;
+
   const handleImageLoad = () => {
     const imgElement = imgRef.current;
     const { naturalWidth, naturalHeight } = imgElement;
     const landscape = naturalWidth > naturalHeight;
+    setImgWidth(landscape ? 700 : 550);
     setIsLandscape(landscape);
   };
-
-  const imageWidth = isLandscape ? 700 : 550;
+console.log("profile Props",props);
   return (
-    <div
-      className={`max-w-screen-lg mx-auto flex justify-center w-[${imageWidth}px`}
-    >
-      <div
-        className={`flex flex-col gap-y-3 px-4 py-6 bg-white w-[${imageWidth}px]`}
-      >
+    <div className={`w-full lg:w-auto flex justify-center`}>
+      <div className={`flex flex-wrap flex-col gap-y-2 md:gap-y-2 px-4 py-6 bg-white w-full max-w-[95%] sm:max-w-[90%]  md:w-[700px]`}>
         <div className="w-[100%] bottom-0">
-          <div
-            className={`mb-2  w-[${imageWidth}px] flex justify-start gap-x-4 items-center`}
+          <Link
+            href = {`/profile/${props.userData._id || props.userId}`}
+            className={`mb-2 rounded-full flex justify-start gap-x-4 items-center`}
           >
-            <Image
-              src={profilePicUrl}
-              alt="profilePic"
-              width={40}
-              height={30}
-              className="rounded-full border-[1.5px] border-solid border-text"
-            />
-            <p className={`font-bold text-lg `}>{props.userData.name}</p>
-          </div>
+            <div className="w-[40px] h-[40px]  md:w-[50px] md:h-[50px] rounded-full">
+              <Image
+                src={profilePicUrl}
+                alt="profilePic"
+                width={50}
+                height={50}
+                className="w-full h-full object-cover rounded-full border-[2px] border-solid border-text"
+              />
+            </div>
+            <div>
+              {" "}
+              <p className={`font-bold  text-md md:text-xl`}>{props.userData.name}</p>
+              <p className={`text-sm md:text-lg" text-gray-500`}>{props.creationDate}</p>
+            </div>
+          </Link>
         </div>
 
-        <div className="w-[100%] flex justify-center bg-[#c4ad8f] rounded-[10px]">
+        <div className="w-[100%] max-h-[300px] md:max-h-[400px] max-w-[700px] flex justify-center  rounded-[10px]">
           <Image
             src={imgUrl}
-            alt=""
-            width={imageWidth}
-            height={550}
-            className=" border-none shadow-[0px_0px_10px_black]"
+            alt="image"
+            width={500}
+            height={500}
+            className="w-full border-none object-cover shadow-[0px_0px_10px_black]"
             onLoad={handleImageLoad}
             ref={imgRef}
           />
@@ -82,36 +81,34 @@ function Post(props) {
           renderCommentSec={renderCommentSec}
           setCommentsData={setCommentsData}
           setCommentPageLoaded={setCommentPageLoaded}
-          className={`w-${imageWidth} mt-0`}
-          newComments = {newComments}
+          className={`mt-0`}
+          newComments={newComments}
         />
         <div className="w-[100%]">
-          <div className={`w-[${imageWidth}px] flex flex-col items-start`}>
-            <div className="font-bold text-xl">{props.title}</div>
-            <div className="text-lg">{props.description}</div>
+          <div className={`flex flex-col items-start`}>
+            <div className="font-bold text-md md:text-xl">{props.title}</div>
+            <div className="text-sm md:text-lg">{props.description}</div>
           </div>
         </div>
 
-        
-          <Comments
-            renderCommentSec={renderCommentSec}
-            commentsData={commentsData}
-            postId={props.postId}
-            userId={props.userId}
-            token={props.token}
-            setCommentsData={setCommentsData}
-            setCommentPageLoaded={setCommentPageLoaded}
-            commentPageLoaded={commentPageLoaded}
-            newComments={newComments}
-          />
-        
+        <Comments
+          renderCommentSec={renderCommentSec}
+          commentsData={commentsData}
+          postId={props.postId}
+          userId={props.userId}
+          token={props.token}
+          setCommentsData={setCommentsData}
+          setCommentPageLoaded={setCommentPageLoaded}
+          commentPageLoaded={commentPageLoaded}
+          newComments={newComments}
+        />
 
         <CommentSection
           renderCommentSec={renderCommentSec}
           token={props.token}
           postId={props.postId}
           setNewComments={setNewComments}
-          newComments = {newComments}
+          newComments={newComments}
         />
 
         <div className="w-full h-1 bg-pink-300 my-4 mt-10"></div>

@@ -17,11 +17,11 @@ function ProfileDataInputSection({ type }) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-
+    console.log("", formData);
 
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/create-user-details`,
+        "http://localhost:8080/create-user-details",
         {
           method: "post",
           body: formData,
@@ -56,10 +56,10 @@ function ProfileDataInputSection({ type }) {
       <div className = "bg-secondary  h-[100vh] flex items-center">
         <form
           onSubmit={onSubmitHandler}
-          className="max-w-screen-md h-full sm:h-auto mx-auto p-10 bg-primary shadow-md sm:rounded-lg sm:mt-8"
+          className="max-w-screen-md mx-auto p-10 bg-primary shadow-md rounded-lg mt-8"
         >
-          <div className="mb-4 flex flex-col sm:flex-row sm:items-center">
-            <div className="w-full sm:w-1/2 sm:pr-4">
+          <div className="mb-4 flex items-center">
+            <div className="w-1/2 pr-4">
               <label
                 htmlFor="name"
                 className="block text-sm font-semibold text-text"
@@ -72,7 +72,7 @@ function ProfileDataInputSection({ type }) {
                 className="mt-1 p-2 w-full border border-gray-300 focus:outline-none focus:border-accent rounded-full"
               />
             </div>
-            <div className="w-full sm:w-1/2 sm:pl-4">
+            <div className="w-1/2 pl-4">
               <label
                 htmlFor="title"
                 className="block text-sm font-semibold text-text"
@@ -87,8 +87,8 @@ function ProfileDataInputSection({ type }) {
             </div>
           </div>
 
-          <div className="mb-4 flex flex-col xs:flex-row xs:items-center">
-            <div className="w-1/2 xs:pr-4">
+          <div className="mb-4 flex items-center">
+            <div className="w-1/2 pr-4">
               <label
                 htmlFor="profileImg"
                 className="block text-sm font-semibold text-text mt-2"
@@ -110,7 +110,7 @@ function ProfileDataInputSection({ type }) {
               )}
             </div>
 
-            <div className="w-1/2 xs:pl-4">
+            <div className="w-1/2 pl-4">
               <label
                 htmlFor="backgroundImg"
                 className="block text-sm font-semibold text-text mt-2"

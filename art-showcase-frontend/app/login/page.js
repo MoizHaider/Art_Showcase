@@ -1,13 +1,13 @@
 "use client";
 import React from "react";
 import cookie from "cookie-cutter";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "../../public/logo.png";
 import flowerCircle from "../../public/flowerCircle.png";
 import Link from "next/link";
 
-const loginFun = (event) => {
+async function loginFun(event) {
   const email = event.currentTarget.email.value;
   const password = event.currentTarget.password.value;
   const graphqlQuery = {
@@ -28,7 +28,7 @@ const loginFun = (event) => {
       password: password,
     },
   };
-  fetch("http://localhost:8080/graphql", {
+  fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -42,64 +42,67 @@ const loginFun = (event) => {
       cookie.set("email", email);
       cookie.set("name", resData.data.login.userData.name);
       cookie.set("profilePicUrl", resData.data.login.userData.profilePicUrl);
-
-      //for auto logout
-      /*
-        onst remainingMilliseconds = 60 * 60 * 1000;
-        const expiryDate = new Date(
-          new Date().getTime() + remainingMilliseconds
-        );
-        localStorage.setItem('expiryDate', expiryDate.toISOString());
-        this.setAutoLogout(remainingMilliseconds);
-      */
     });
-};
+}
 
 function page() {
+  const pathname = usePathname();
+
   const router = useRouter();
-  const onSubmitHandler = (event) => {
+  const onSubmitHandler = async (event) => {
     event.preventDefault();
-    loginFun(event);
-    router.replace("/");
+    await loginFun(event);
+    router.push("/");
   };
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-formBg overflow-hidden">
       <div className="relative w-[100%]">
-        <Image
-          src={flowerCircle}
-          alt="flower circle"
-          width={800} // Increase the width
-          height={800} // Increase the height
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
-        />
+        <div className="w-[600px] xs:w-[700px] sm:w-[800px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <Image
+            src={flowerCircle}
+            alt="flower circle"
+            width={900} // Increase the width
+            height={900} // Increase the height
+            className="w-full object-cover "
+          />
+        </div>
+
         <form
           onSubmit={onSubmitHandler}
-          className="grid p-8 w-[80%] lg:w-[50%] max-w-[400px] rounded-[20px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ml-[30px]"
+          className="grid justify-items-center p-8 w-[100%] md:w-[80%] lg:w-[50%] max-w-[400px] rounded-[20px] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  ml-[10px] xs:ml-[30px]"
         >
           <Image
             src={logo}
             alt="logo"
             width={70}
             height={70}
-            className="mb-2 mx-auto bg-primary rounded-[10px] p-2 shadow-lg"
+            className="mb-2 w-[60px] h-[60px] md:w-[70px] md:h-[70px] mx-auto bg-primary rounded-[10px] p-2 shadow-lg"
           />
           <h2 className="text-accent text-lg font-bold text-center">
             Art Nest
           </h2>
 
-          <label className="text-text mt-4">Email</label>
-          <input
-            type="email"
-            name="email"
-            className="text-text p-1 sm:p-2 rounded-full mb-2 w-7/10 sm:w-8/10 md:w-9/10  focus:outline-none focus:border-accent"
-          />
-          <label className="text-text">Password</label>
-          <input
-            type="password"
-            name="password"
-            className="text-text p-1 sm:p-2 rounded-full mb-2 w-7/10 sm:w-8/10 md:w-9/10 focus:outline-none focus:border-accent"
-          />
-          <div className="flex flex-col items-center gap-y-4">
+          <div className="w-[90%] xs:w-[90%] md:w-full flex flex-col">
+            <label className="ml-2 text-text mt-4">Email</label>
+
+            <input
+              type="email"
+              name="email"
+              className=" text-text px-2 py-1 md:py-2 rounded-full mb-2  w-full  focus:outline-none focus:border-accent"
+            />
+          </div>
+          <div className="w-[90%] xs:w-[90%] md:w-full flex flex-col">
+            <label className="justify-self-start ml-2  text-text">
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              className="text-text px-2 py-1 md:py-2 rounded-full mb-2 md:w-full focus:outline-none focus:border-accent"
+            />
+          </div>
+
+          <div className="flex flex-col items-center gap-y-2 md:gap-y-4">
             <button
               type="submit"
               className="mt-6 w-[40%] bg-primary text-text p-2 rounded-full hover:bg-accent hover:text-white transition-all"

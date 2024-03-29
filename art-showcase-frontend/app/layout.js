@@ -23,6 +23,7 @@ export default function RootLayout({ children }) {
       </Head>
       <body className={inter.className}>
         <Providers>
+        <div className="modal-container"></div>
         <Nav />
           {children}
         </Providers>

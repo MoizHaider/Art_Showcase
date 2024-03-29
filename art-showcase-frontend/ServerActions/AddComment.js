@@ -12,7 +12,7 @@ export default async function AddComment(token, postId, userId, text) {
             text,
         }
     }
-    const response = await fetch("http://localhost:8080/graphql", {
+    const response = await fetch(`${process.env.BACKEND_URL}/graphql`, {
       method: "post",
       headers: {
         Authorization: "Bearer " + token,
@@ -21,5 +21,6 @@ export default async function AddComment(token, postId, userId, text) {
       body: JSON.stringify(graphqlQuery),
     })
     const result = await response.json()
+
     return result.data.addComment;
 }

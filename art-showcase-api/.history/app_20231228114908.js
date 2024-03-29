@@ -2,7 +2,7 @@ const express = require("express");
 var { graphqlHTTP } = require("express-graphql");
 const graphqlSchema = require("./graphql/schemas");
 const graphqlResolver = require("./graphql/resolvers");
-const http = require("http");
+const app = express();
 const path = require("path");
 const userController = require("./controllers/user");
 const bodyParser = require("body-parser");
@@ -11,18 +11,7 @@ const mongoObj = require("./database");
 const ObjectId = require("mongodb").ObjectId;
 const auth = require("./middleware/auth");
 var cors = require("cors");
-const { setDate, getDate } = require("./Utils/Date");
-const { dbConnect } = require("./database");
-const Fuse = require("fuse.js");
-
-const { Server } = require("socket.io");
-
-const app = express();
-const server = http.createServer(app);
-
-const io = new Server({
-  cors: "http://localhost:8080",
-});
+const {setDate, getDate} = require("./Utils/Date");
 
 const fileStorage = multer.diskStorage({
   destination(req, file, cb) {
@@ -57,14 +46,13 @@ app.use((req, res, next) => {
 
 app.use(auth);
 
-app.post(
-  // could not use multer here as adding (upload.array("postImages", 10)) or any other method wasn't running
+app.post(   // could not use multer here as adding (upload.array("postImages", 10)) or any other method wasn't running
   "/add-post", // ruuning the controller function so I did it manually passing the post names in the header from front..
   (req, res, next) => {
     setDate(Date.now());
     next();
   },
-  userController.addNewPost
+  userController.addNewPost,
 );
 app.post("/add-post", upload.array("postImages", 10));
 
@@ -95,41 +83,6 @@ app.use(
     },
   })
 );
-const fuseOptions = {
-  keys: ["name"],
-  //threshold: 0.3,
-};
-
-const performSearch = async (query) => {
-  console.log("search query ", query);
-  let db = dbConnect();
-  const documents = await db
-    .collection("usersData")
-    .find({})
-    // .find({ "name" : { $regrex: /query/ } })
-    .project({ name: 1, profilePicUrl: 1, title: 1 })
-    .toArray();
-
-  const fuse = new Fuse(documents, fuseOptions);
-
-  return fuse.search(query);
-};
-
-io.on("connection", (socket) => {
-  console.log("Client connected");
-
-  socket.on("search", async (query) => {
-    const searchResults = await performSearch(query);
-    console.log("results", searchResults);
-    io.emit("searchResults", searchResults);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
-});
-io.listen(process.env.SOCKET_PORT);
-
 app.use((error, req, res, next) => {
   console.log(error);
   const status = error.statusCode || 500;
@@ -137,7 +90,6 @@ app.use((error, req, res, next) => {
   const data = error.data;
   res.status(status).json({ message: message, data: data });
 });
-
 mongoObj.mongoConnect(() => {
   app.listen(8080);
 });

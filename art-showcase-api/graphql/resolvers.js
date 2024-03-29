@@ -5,6 +5,7 @@ const mongodb = require("mongodb");
 const { response } = require("express");
 const ObjectId = mongodb.ObjectId;
 const { getNanoid } = require("../Utils/nanoid");
+const Fuse = require("fuse.js")
 
 // Input Validation
 
@@ -243,7 +244,9 @@ module.exports = {
         .findOne({ email: email })
         .then((result) => {
           if (result) {
-            throw new Error("user already exists");
+            const error = new Error("user already exists");
+            error.statusCode = 332;
+            throw error;
           }
         });
       //Check wether the email already exists first
@@ -444,4 +447,12 @@ module.exports = {
 
     return "Done";
   },
+
+  async search(args, req){
+    const fuseOptions = {
+      keys: ['name'], // Fields to search in your documents
+      threshold: 0.3, // Adjust the threshold for search results
+    };
+    
+  }
 };

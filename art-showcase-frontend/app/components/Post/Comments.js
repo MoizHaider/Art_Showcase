@@ -3,7 +3,7 @@ import Comment from "./Comment";
 import LoadMoreComments from "./LoadMoreComments";
 
 export default function Comments(props) {
-  console.log("Comments data", props.commentsData);
+
   return (
     <div className="max-h-[20rem] overflow-y-auto  mt-4">
       {props.newComments.length > 0
