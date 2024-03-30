@@ -77,6 +77,10 @@ app.post(
   userController.addUserDetails
 );
 
+app.get("/", (req, res)=>{
+  res.json("hello")
+})
+
 app.use(
   "/graphql",
   graphqlHTTP({
