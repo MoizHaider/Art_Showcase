@@ -36,7 +36,11 @@ const fileStorage = multer.diskStorage({
 });
 
 app.use("/public", express.static(path.join(__dirname, "public")));
-app.use(cors());
+app.use(cors({
+    origin: ["https://art-nest-api.vercel.app/"],
+    methods: ['POST', 'GET'],
+    credentials: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
