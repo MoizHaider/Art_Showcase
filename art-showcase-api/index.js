@@ -1,7 +1,7 @@
 const express = require("express");
 var { graphqlHTTP } = require("express-graphql");
 const graphqlSchema = require("./graphql/schemas");
-const graphqlResolver = require("../graphql/resolvers");
+const graphqlResolver = require("./graphql/resolvers");
 const http = require("http");
 const path = require("path");
 const userController = require("./controllers/user");
