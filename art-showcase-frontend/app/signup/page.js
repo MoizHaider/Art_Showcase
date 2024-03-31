@@ -1,6 +1,6 @@
 import React from "react";
 
-import Signup from "./signup.js";
+import Signup from "./SignupComp.js";
 
 export default function page() {
   return (
