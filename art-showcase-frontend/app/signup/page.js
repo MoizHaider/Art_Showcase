@@ -1,5 +1,6 @@
 import React from "react";
-import Signup from "./Signup.js";
+
+import Signup from "./signup.js";
 
 export default function page() {
   return (
