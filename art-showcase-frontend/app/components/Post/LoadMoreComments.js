@@ -9,6 +9,7 @@ import getComments from "@/ServerActions/getComments";
 export default function LoadMoreComments(props) {
   const { ref, inView } = useInView();
   const [renderSpinner, setRenderSpinner] = useState(true);
+
   const commentsFun = async () => {
     const nextPage = props.commentPageLoaded + 1;
     
@@ -30,11 +31,12 @@ export default function LoadMoreComments(props) {
       }
     }
   };
+
   useEffect(() => {
     if (inView) {
       commentsFun();
     }
-  }, [inView]);
+  }, [inView, commentsFun]);
 
   return (
     <>

@@ -71,8 +71,8 @@ export default function SearchSection() {
       </div>
       {focus && (
         <div className="bg-gray-200 absolute top-[120%] w-full px-4  rounded-[5px]">
-          {results.map((data) => {
-            return <ResultCards data={data.item} />;
+          {results.map((data, index) => {
+            return <ResultCards data={data.item} key = {index} />;
           })}
         </div>
       )}

@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import cookie from "cookie-cutter";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import logo from "../../public/logo.png";
 import flowerCircle from "../../public/flowerCircle.png";
@@ -46,7 +46,6 @@ async function loginFun(event) {
 }
 
 function page() {
-  const pathname = usePathname();
 
   const router = useRouter();
   const onSubmitHandler = async (event) => {

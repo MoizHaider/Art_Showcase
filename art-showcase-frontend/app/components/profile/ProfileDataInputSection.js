@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 function ProfileDataInputSection({ type }) {
   const [profileImgUrl, setProfileImgUrl] = useState();
@@ -17,7 +18,6 @@ function ProfileDataInputSection({ type }) {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
-
 
     try {
       const response = await fetch(
@@ -53,7 +53,7 @@ function ProfileDataInputSection({ type }) {
 
   return (
     <>
-      <div className = "bg-secondary  h-[100vh] flex items-center">
+      <div className="bg-secondary  h-[100vh] flex items-center">
         <form
           onSubmit={onSubmitHandler}
           className="max-w-screen-md h-full sm:h-auto mx-auto p-10 bg-primary shadow-md sm:rounded-lg sm:mt-8"
@@ -102,7 +102,9 @@ function ProfileDataInputSection({ type }) {
                 className="mt-1 mb-2 w-full focus:outline-none"
               />
               {profileImgUrl && (
-                <img
+                <Image
+                  width={20}
+                  height={20}
                   src={profileImgUrl}
                   alt="Profile Preview"
                   className="w-20 h-20 object-cover mt-2 rounded-[10px]"
@@ -124,7 +126,9 @@ function ProfileDataInputSection({ type }) {
                 className="mt-1 mb-2 w-full focus:outline-none"
               />
               {backgroundImgUrl && (
-                <img
+                <Image
+                  width={20}
+                  height={20}
                   src={backgroundImgUrl}
                   alt="Background Preview"
                   className="w-20 h-20 object-cover mt-2 rounded-[10px]"

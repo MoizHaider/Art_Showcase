@@ -23,6 +23,7 @@ function Comment({ commentData, token, postId }) {
               width={50}
               height={50}
               className="rounded-full w-[50px] h-[50px]"
+              alt="Image"
             />
             <div>
               <p className="font-bold">{commentData.userData.name}</p>

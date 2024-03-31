@@ -50,7 +50,7 @@ function LoadMorePosts(props) {
         homePostsFun();
       }
     }
-  }, [inView]);
+  }, [inView, props.location]);
   return (
     <>
       {props.location === "profile"
