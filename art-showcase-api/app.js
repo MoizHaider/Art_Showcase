@@ -7,7 +7,7 @@ const path = require("path");
 const userController = require("./controllers/user");
 const bodyParser = require("body-parser");
 const multer = require("multer");
-const mongoObj = require("./database");
+
 const ObjectId = require("mongodb").ObjectId;
 const auth = require("./middleware/auth");
 var cors = require("cors");
@@ -146,6 +146,4 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
-mongoObj.mongoConnect(() => {
-  app.listen(8080);
-});
+module.exports = app;
