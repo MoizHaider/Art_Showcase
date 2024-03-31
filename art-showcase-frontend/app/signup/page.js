@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import { FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router"; //we use next/navigation for app router but it was giving err on deployment
 import Head from "next/head";
 import logo from "../../public/logo.png";
 import flowerCircle from "../../public/flowerCircle.png";
