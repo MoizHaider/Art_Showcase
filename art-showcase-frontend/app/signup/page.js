@@ -1,10 +1,10 @@
-import React from 'react'
-import Signup from './signup'
+import React from "react";
+import Signup from "./Signup.js";
 
 export default function page() {
   return (
     <>
-    <Signup/>
+      <Signup />
     </>
-  )
+  );
 }
