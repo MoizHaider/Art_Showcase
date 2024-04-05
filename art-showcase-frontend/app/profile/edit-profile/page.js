@@ -2,6 +2,7 @@
 import ProfileDataInputSection from '@/app/components/profile/ProfileDataInputSection'
 import React from 'react'
 import { redirect } from "next/navigation";
+import { cookies } from 'next/headers';
 
 
 function CreateProfile() {
