@@ -6,9 +6,9 @@ import cookie from "cookie-cutter";
 import AddComment from "@/ServerActions/AddComment";
 
 function CommentSection(props) {
-  const name = cookie.get("name");
-  const _id = cookie.get("userId");
-  const profilePicUrl = cookie.get("profilePicUrl");
+  const name = cookie.get ? cookie.get("name") : null;
+  const _id = cookie.get ? cookie.get("userId") : null;
+  const profilePicUrl = cookie.get ? cookie.get("profilePicUrl") : null;
   const [comment, setComment] = useState()
 
 

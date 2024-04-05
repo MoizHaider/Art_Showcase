@@ -10,7 +10,8 @@ import { usePathname, useRouter } from "next/navigation";
 function Nav() {
   const pathName = usePathname();
   const router = useRouter();
-  const userId = cookie.get("userId");
+  const userId = cookie.get ? cookie.get("userId") : null;
+ 
 
 
   // List of routes where you want to hide the navigation
