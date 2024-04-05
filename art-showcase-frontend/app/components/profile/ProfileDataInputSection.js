@@ -5,14 +5,20 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 function ProfileDataInputSection({ type }) {
+  
   const [profileImgUrl, setProfileImgUrl] = useState();
   const [backgroundImgUrl, setBackgroundImgUrl] = useState();
   const [profileImg, setProfileImg] = useState();
   const [backgroundImg, setBackgroundImg] = useState();
   const router = useRouter();
 
-  const email = localStorage.getItem("email");
-  const _id = localStorage.getItem("_id");
+  let email;
+  let _id;
+
+  useEffect(()=>{
+    email = localStorage.getItem("email");
+    _id = localStorage.getItem("_id");
+  },[])
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
