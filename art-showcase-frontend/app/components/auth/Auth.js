@@ -5,10 +5,11 @@ import React from "react";
 
 function Auth({ children }) {
   const [auth, setAuth] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userID");
-    const router = useRouter();
+
     if (!token || !userId) {
       router.replace("/login");
     }
