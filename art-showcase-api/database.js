@@ -11,7 +11,7 @@ exports.mongoConnect = (cb) => {
     `${dbUrl}`,
     {
       ssl: true,
-      serverSelectionTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 10000,
     }).then(client=>{
         db = client.db("ArtGallery")
         cb()
