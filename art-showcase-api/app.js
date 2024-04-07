@@ -36,11 +36,7 @@ const fileStorage = multer.diskStorage({
 });
 
 app.use("/public", express.static(path.join(__dirname, "public")));
-app.use(cors({
-    origin: ["https://art-nest-social.vercel.app/*"],
-    methods: ['POST', 'GET'],
-    credentials: true
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -81,11 +77,11 @@ app.post(
   userController.addUserDetails
 );
 
-app.get("*", (req, res, next)=>{
-  console.log("fuck u bitch")
-  res.json("hello, you crap")
-  next()
-})
+app.get("*", (req, res, next) => {
+  console.log("fuck u bitch");
+  res.json("hello, you crap");
+  next();
+});
 
 app.use(
   "/graphql",
