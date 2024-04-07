@@ -6,7 +6,7 @@ require('dotenv').config({ path: '.env.local' })
 let db;
 
 exports.mongoConnect = (cb) => {
-    const dbUrl = process.env.DATABASE_URL;
+    const dbUrl = process.env.MONGODB_URI;
   MongoClient.connect(
     `${dbUrl}`,
     {
