@@ -205,6 +205,7 @@ module.exports = {
     return { userData: userData, posts: posts };
   },
   async login({ email, password }, req) {
+    console.log("login res running")
     const db = dbConnect();
     const userData = await db
       .collection("usersData")

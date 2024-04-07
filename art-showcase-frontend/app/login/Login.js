@@ -6,6 +6,7 @@ import Image from "next/image";
 import logo from "../../public/logo.png";
 import flowerCircle from "../../public/flowerCircle.png";
 import Link from "next/link";
+import { useEffect } from "react";
 
 async function loginFun(event) {
   const email = event.currentTarget.email.value;
@@ -53,6 +54,7 @@ function Login() {
     await loginFun(event);
     router.push("/");
   };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-formBg overflow-hidden">
       <div className="relative w-[100%]">

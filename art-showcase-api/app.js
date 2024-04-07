@@ -81,8 +81,10 @@ app.post(
   userController.addUserDetails
 );
 
-app.get("*", (req, res)=>{
-  res.json("hello")
+app.get("*", (req, res, next)=>{
+  console.log("fuck u bitch")
+  res.json("hello, you crap")
+  next()
 })
 
 app.use(
