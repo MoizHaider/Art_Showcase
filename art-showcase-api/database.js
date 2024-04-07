@@ -24,6 +24,6 @@ exports.dbConnect = ()=>{
     if(db){
         return db;
     }
-    throw "Database not found";
+    throw "Database not foking found";
 }
 
