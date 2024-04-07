@@ -37,7 +37,7 @@ const fileStorage = multer.diskStorage({
 
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(cors({
-    origin: ["https://art-nest-api.vercel.app/"],
+    origin: ["https://art-nest-social.vercel.app/*"],
     methods: ['POST', 'GET'],
     credentials: true
 }));
