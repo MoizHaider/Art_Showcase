@@ -147,6 +147,6 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
+module.exports = app
 
 
-app.listen(8080);
