@@ -4,7 +4,7 @@ const MongoClient = mongodb.MongoClient;
 
 let db;
 
-exports.mongoConnect = (cb) => {
+exports.mongoConnect = () => {
   const dbUrl = process.env.MONGODB_URI;
   MongoClient.connect(`${dbUrl}`, {
     ssl: true,
@@ -12,10 +12,9 @@ exports.mongoConnect = (cb) => {
   })
     .then((client) => {
       db = client.db("ArtGallery");
-      cb();
     })
     .catch((err) => {
-        throw "Database not foking found 1";
+      throw "Database not foking found 1";
     });
 };
 
@@ -23,16 +22,5 @@ exports.dbConnect = () => {
   if (db) {
     return db;
   }
-  const dbUrl = process.env.MONGODB_URI;
-  MongoClient.connect(`${dbUrl}`, {
-    ssl: true,
-    serverSelectionTimeoutMS: 10000,
-  })
-    .then((client) => {
-      db = client.db("ArtGallery");
-      return db;
-    })
-    .catch((err) => {
-      throw "Database not foking found 2";
-    });
+  throw "Database not foking found 2";
 };

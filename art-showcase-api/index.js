@@ -16,6 +16,9 @@ const { dbConnect } = require("./database");
 const Fuse = require("fuse.js");
 
 const { Server } = require("socket.io");
+const mongoObj = require("./database");
+
+mongoObj.mongoConnect();
 
 const app = express();
 const server = http.createServer(app);
@@ -144,11 +147,6 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
-const mongoObj = require("./database");
 
 
-mongoObj.mongoConnect(() => {
-    app.listen(8080);
-  });
-
-
+app.listen(8080);
