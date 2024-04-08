@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-import Events from "./components/home/Events";
+
 
 import LoadMorePosts from "./components/LoadMorePosts";
 import SearchSection from "./components/SearchSection";
