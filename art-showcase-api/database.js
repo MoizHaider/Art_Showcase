@@ -15,25 +15,24 @@ exports.mongoConnect = (cb) => {
       cb();
     })
     .catch((err) => {
-      console.log(err);
+        throw "Database not foking found 1";
     });
 };
 
 exports.dbConnect = () => {
   if (db) {
     return db;
-  } else {
-    const dbUrl = process.env.MONGODB_URI;
-    MongoClient.connect(`${dbUrl}`, {
-      ssl: true,
-      serverSelectionTimeoutMS: 10000,
-    })
-      .then((client) => {
-        db = client.db("ArtGallery");
-        return db;
-      })
-      .catch((err) => {
-        throw "Database not foking found";
-      });
   }
+  const dbUrl = process.env.MONGODB_URI;
+  MongoClient.connect(`${dbUrl}`, {
+    ssl: true,
+    serverSelectionTimeoutMS: 10000,
+  })
+    .then((client) => {
+      db = client.db("ArtGallery");
+      return db;
+    })
+    .catch((err) => {
+      throw "Database not foking found 2";
+    });
 };

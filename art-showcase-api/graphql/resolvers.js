@@ -164,6 +164,7 @@ module.exports = {
     return { posts };
   },
   homeLoadQuery: async (args, req) => {
+    console.log("homw load")
     const db = dbConnect();
     if ((req.isAuth = false)) {
       const error = new Error("Not Authenticated");
