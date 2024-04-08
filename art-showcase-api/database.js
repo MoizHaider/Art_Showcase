@@ -30,7 +30,7 @@ exports.dbConnect = () => {
     })
       .then((client) => {
         db = client.db("ArtGallery");
-        cb();
+        return db;
       })
       .catch((err) => {
         throw "Database not foking found";
