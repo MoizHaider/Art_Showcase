@@ -5,7 +5,7 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    domains: ["localhost"],
+    domains: [process.env.DOMAIN],
   },
 };
 

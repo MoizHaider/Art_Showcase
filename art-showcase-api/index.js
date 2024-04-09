@@ -15,7 +15,6 @@ const { setDate, getDate } = require("./Utils/Date");
 const { dbConnect } = require("./database");
 const Fuse = require("fuse.js");
 
-const { Server } = require("socket.io");
 const mongoObj = require("./database");
 
 mongoObj.mongoConnect();
@@ -23,9 +22,7 @@ mongoObj.mongoConnect();
 const app = express();
 const server = http.createServer(app);
 
-const io = new Server({
-  cors: "http://localhost:8080",
-});
+const io = require("socket.io")(server);
 
 const fileStorage = multer.diskStorage({
   destination(req, file, cb) {
@@ -137,7 +134,9 @@ io.on("connection", (socket) => {
     console.log("Client disconnected");
   });
 });
-io.listen(process.env.SOCKET_PORT);
+server.listen(process.env.SOCKET_PORT, function () {
+  console.log(`Listening on port ${port}`);
+});
 
 app.use((error, req, res, next) => {
   console.log(error);
@@ -147,6 +146,4 @@ app.use((error, req, res, next) => {
   res.status(status).json({ message: message, data: data });
 });
 
-module.exports = app
-
-
+module.exports = app;
