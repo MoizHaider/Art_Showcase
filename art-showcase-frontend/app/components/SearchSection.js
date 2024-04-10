@@ -17,7 +17,6 @@ export default function SearchSection() {
 
     if (focus) {
       const newSocket = io(`${process.env.NEXT_PUBLIC_DOMAIN_NAME}`);
-
       setSocket(newSocket);
       return () => newSocket.close();
     }
