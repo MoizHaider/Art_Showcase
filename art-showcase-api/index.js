@@ -13,16 +13,14 @@ var cors = require("cors");
 const { setDate, getDate } = require("./Utils/Date");
 const { dbConnect } = require("./database");
 const Fuse = require("fuse.js");
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 const mongoObj = require("./database");
-const socketio = require('socket.io');
+const socketio = require("socket.io");
 mongoObj.mongoConnect();
 
 const app = express();
-const server = require('http').Server(app);
-const io = socketio(server);
+
 dotenv.config();
-const port = process.env.PORT || 5000;
 
 const fileStorage = multer.diskStorage({
   destination(req, file, cb) {
@@ -120,10 +118,29 @@ const performSearch = async (query) => {
 
   return fuse.search(query);
 };
-server.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+
+app.use((error, req, res, next) => {
+  console.log(error);
+  const status = error.statusCode || 500;
+  const message = error.message;
+  const data = error.data;
+  res.status(status).json({ message: message, data: data });
 });
 
+const PORT = process.env.PORT || 8080;
+
+const server = app.listen(PORT, () => {
+  console.log("listening on port 8080");
+});
+
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    //FRONTEND LINK
+    origin: "*",
+    methods: ["PUT", "GET", "POST", "DELETE", "OPTIONS"],
+  },
+});
 io.on("connection", (socket) => {
   console.log("Client connected");
 
@@ -139,12 +156,5 @@ io.on("connection", (socket) => {
 });
 
 
-app.use((error, req, res, next) => {
-  console.log(error);
-  const status = error.statusCode || 500;
-  const message = error.message;
-  const data = error.data;
-  res.status(status).json({ message: message, data: data });
-});
 
 module.exports = app;
