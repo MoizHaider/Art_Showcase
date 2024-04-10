@@ -16,7 +16,7 @@ export default function SearchSection() {
   useEffect(() => {
 
     if (focus) {
-      const newSocket = io(`${process.env.NEXT_PUBLIC_DOMAIN_NAME}:${process.env.NEXT_PUBLIC_SOCKET_PORT}`);
+      const newSocket = io(`${process.env.NEXT_PUBLIC_DOMAIN_NAME}`);
 
       setSocket(newSocket);
       return () => newSocket.close();

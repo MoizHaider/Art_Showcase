@@ -2,7 +2,6 @@ const express = require("express");
 var { graphqlHTTP } = require("express-graphql");
 const graphqlSchema = require("./graphql/schemas");
 const graphqlResolver = require("./graphql/resolvers");
-const http = require("http");
 const path = require("path");
 const userController = require("./controllers/user");
 const bodyParser = require("body-parser");
@@ -14,15 +13,16 @@ var cors = require("cors");
 const { setDate, getDate } = require("./Utils/Date");
 const { dbConnect } = require("./database");
 const Fuse = require("fuse.js");
-
+const dotenv = require('dotenv');
 const mongoObj = require("./database");
-
+const socketio = require('socket.io');
 mongoObj.mongoConnect();
 
 const app = express();
-const server = http.createServer(app);
-
-const io = require("socket.io")(server);
+const server = require('http').Server(app);
+const io = socketio(server);
+dotenv.config();
+const port = process.env.PORT || 5000;
 
 const fileStorage = multer.diskStorage({
   destination(req, file, cb) {
@@ -120,6 +120,9 @@ const performSearch = async (query) => {
 
   return fuse.search(query);
 };
+server.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
 io.on("connection", (socket) => {
   console.log("Client connected");
@@ -134,9 +137,7 @@ io.on("connection", (socket) => {
     console.log("Client disconnected");
   });
 });
-server.listen(process.env.SOCKET_PORT, function () {
-  console.log(`Listening on port ${port}`);
-});
+
 
 app.use((error, req, res, next) => {
   console.log(error);
