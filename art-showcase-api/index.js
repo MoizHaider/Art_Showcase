@@ -75,11 +75,6 @@ app.post(
   userController.addUserDetails
 );
 
-app.get("*", (req, res, next) => {
-  console.log("fuck u bitch");
-  res.json("hello, you crap");
-  next();
-});
 
 app.use(
   "/graphql",
@@ -141,6 +136,7 @@ const io = require("socket.io")(server, {
     methods: ["PUT", "GET", "POST", "DELETE", "OPTIONS"],
   },
 });
+
 io.on("connection", (socket) => {
   console.log("Client connected");
 
