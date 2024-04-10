@@ -5,7 +5,7 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    domains: [process.env.NEXT_PUBLIC_DOMAIN_NAME],
+    domains: ["art-nest-backend.vercel.app"],
   },
 };
 
