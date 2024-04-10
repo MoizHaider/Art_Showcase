@@ -5,7 +5,7 @@ const nextConfig = {
     serverActions: true,
   },
   images: {
-    domains: [process.env.DOMAIN],
+    domains: [process.env.NEXT_PUBLIC_DOMAIN_NAME],
   },
 };
 
