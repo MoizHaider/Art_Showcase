@@ -16,7 +16,7 @@ export default function SearchSection() {
   useEffect(() => {
 
     if (focus) {
-      const newSocket = io(`${process.env.NEXT_PUBLIC_DOMAIN_NAME}`);
+      const newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`);
       setSocket(newSocket);
       return () => newSocket.close();
     }
