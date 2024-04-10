@@ -13,13 +13,16 @@ export default function SearchSection() {
   const [focus, setFocus] = useState(false);
   let typingTimer;
  
-  useEffect(() => {
-
+  useEffect( () => {
+    console.log("focus effect running")
+    let newSocket
     if (focus) {
-      const newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`);
+      newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`);
+      console.log("new socket ", newSocket)
       setSocket(newSocket);
-      return () => newSocket.close();
+      
     }
+    return () => newSocket && newSocket.close();
   }, [focus]);
 
   const handleSearch = (searchQuery) => {
