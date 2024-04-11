@@ -14,13 +14,14 @@ export default function SearchSection() {
   let typingTimer;
  
   useEffect( () => {
-    console.log("focus effect running")
+
     let newSocket
     if (focus) {
-      newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`);
+      newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}/`,{
+        transports: ['websocket'],
+       });
       console.log("new socket ", newSocket)
       setSocket(newSocket);
-      
     }
     return () => newSocket && newSocket.close();
   }, [focus]);
