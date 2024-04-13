@@ -16,7 +16,7 @@ const Fuse = require("fuse.js");
 const dotenv = require("dotenv");
 const mongoObj = require("./database");
 const socketio = require("socket.io");
-mongoObj.mongoConnect();
+
 
 const app = express();
 
@@ -121,12 +121,14 @@ app.use((error, req, res, next) => {
   const data = error.data;
   res.status(status).json({ message: message, data: data });
 });
-
+let server
 const PORT = process.env.PORT || 8080;
-
-const server = app.listen(PORT, () => {
-  console.log("listening on port 8080");
+mongoObj.mongoConnect(()=>{
+  server = app.listen(PORT, () => {
+    console.log("listening on port 8080");
+  });
 });
+
 
 const io = require("socket.io")(server, {
   pingTimeout: 60000,

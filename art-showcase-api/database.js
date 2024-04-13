@@ -4,7 +4,7 @@ const MongoClient = mongodb.MongoClient;
 
 let db;
 
-exports.mongoConnect = () => {
+exports.mongoConnect = (cb) => {
   const dbUrl = process.env.MONGODB_URI;
   MongoClient.connect(`${dbUrl}`, {
     ssl: true,
@@ -12,6 +12,7 @@ exports.mongoConnect = () => {
   })
     .then((client) => {
       db = client.db("ArtGallery");
+      cb()
     })
     .catch((err) => {
       throw "Database not foking found 1";
