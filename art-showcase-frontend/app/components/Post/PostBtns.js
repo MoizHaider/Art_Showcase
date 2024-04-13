@@ -53,17 +53,15 @@ function PostBtns(props) {
           className="border-none"
         >
           <svg
-            class="feather feather-heart"
+            
             fill="none"
-            height="24"
             stroke="currentColor"
             stroke-linecap="round"
             stroke-linejoin="round"
-            stroke-width="2"
+            stroke-width="1.1"
             viewBox="0 0 24 24"
-            width="24"
             xmlns="http://www.w3.org/2000/svg"
-            className={`${heartFill} w-[25px] h-[25px] sm:w-[30px] sm:h-[30px] md:w-[35px] md:h-[35px] stroke-[1.5px]`}
+            className={` w-[25px] h-[25px] sm:w-[30px] sm:h-[30px] md:w-[35px] md:h-[35px] ${heartFill}  stroke-[1.5px]`}
           >
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
           </svg>
@@ -78,6 +76,7 @@ function PostBtns(props) {
           x="0px"
           y="0px"
           viewBox="0 0 512 512"
+          stroke-width="2"
           // style="enable-background:new 0 0 512 512"
           xmlSpace="preserve"
           className = "w-[25px] h-[25px] sm:w-[30px] sm:h-[30px]  md:w-[35px] md:h-[35px] stroke-2 object-cover"
