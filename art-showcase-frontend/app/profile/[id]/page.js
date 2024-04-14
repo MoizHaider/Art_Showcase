@@ -8,6 +8,7 @@ import GetProfilePosts from "@/ServerActions/GetProfilePosts";
 import Image from "next/image";
 import TypeWriter from "../../components/TypeWriter";
 import { redirect } from "next/navigation";
+import About from "./About";
 
 async function page({ params: { id } }) {
   // the id is the id of the user created the post which might not be the current user.
@@ -69,27 +70,7 @@ async function page({ params: { id } }) {
           />
         </header>
         <div className="block lg:flex ">
-          <main className="text-gray-800 lg:text-primary lg:w-[40%] xl:w-[35%] lg:sticky lg:top-0 lg:h-[100vh] lg:bg-gray-800  p-[1.5rem]">
-            {/* <EditProfileBtn /> */}
-
-            <div className="flex justify-end">
-              {currentUser && (
-                <CreatePostSection
-                  token={token}
-                  userId={userId}
-                  email={email}
-                  name={name}
-                  profilePicUrl={profilePicUrl}
-                  data={data}
-                />
-              )}
-            </div>
-            <div className="font-bold text-xl xs:text-2xl md:text-3xl">
-              About
-            </div>
-            <div>{data.userData.about}</div>
-            <div className="bg-gray-400 w-full absolute left-0 right-0 h-[1px] lg:hidden mt-4"></div>
-          </main>
+          <About token = {token} userId = {userId} email = {email} name = {name} profilePicUrl = {profilePicUrl} data = {data} currentUser = {currentUser}/>
           <main className="w-full p-2 flex flex-col items-center  gap-y-10 ">
             <div className=" md:w-full  grid grid-cols-1 gap-y-5 justify-center">
               <NewPost data={data} userData={userData} />
