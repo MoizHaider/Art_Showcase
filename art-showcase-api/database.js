@@ -3,20 +3,20 @@ require("dotenv").config();
 const MongoClient = mongodb.MongoClient;
 
 let db;
+const client = new MongoClient(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-exports.mongoConnect = (cb) => {
-  const dbUrl = process.env.MONGODB_URI;
-  MongoClient.connect(`${dbUrl}`, {
-    ssl: true,
-    serverSelectionTimeoutMS: 10000,
-  })
-    .then((client) => {
-      db = client.db("ArtGallery");
-      cb()
-    })
-    .catch((err) => {
-      throw "Database not foking found 1";
-    });
+exports.mongoConnect = async (cb) => {
+  try {
+    const dbUrl = process.env.MONGODB_URI;
+    await client.connect();
+    db = client.db("ArtGallery");
+    cb();
+  } catch (err) {
+    throw "Database not foking found 1";
+  }
 };
 
 exports.dbConnect = async () => {

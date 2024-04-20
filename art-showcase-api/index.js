@@ -11,7 +11,9 @@ const ObjectId = require("mongodb").ObjectId;
 const auth = require("./middleware/auth");
 var cors = require("cors");
 const { setDate, getDate } = require("./Utils/Date");
-const { dbConnect } = require("./database");
+
+const dbConnect  = require("./database").dbConnect;
+
 const Fuse = require("fuse.js");
 const dotenv = require("dotenv");
 const mongoObj = require("./database");
@@ -123,6 +125,7 @@ app.use((error, req, res, next) => {
 });
 let server
 const PORT = process.env.PORT || 8080;
+
 mongoObj.mongoConnect(()=>{
   server = app.listen(PORT, () => {
     console.log("listening on port 8080");
