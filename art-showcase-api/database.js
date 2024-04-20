@@ -22,8 +22,11 @@ exports.mongoConnect = (cb) => {
 
 exports.dbConnect = () => {
   if (db) {
-    return Promise.resolve(db);
-  } else {
-    return this.mongoConnect().then(() => db);
+    return db;
   }
+  else{
+    this.mongoConnect()
+    return db;
+  }
+  throw "Database not foking found 2";
 };
