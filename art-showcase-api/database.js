@@ -19,12 +19,12 @@ exports.mongoConnect = (cb) => {
     });
 };
 
-exports.dbConnect = () => {
+exports.dbConnect = async () => {
   if (db) {
     return db;
   }
   else{
-    mongoConnect()
+    await this.mongoConnect()
     return db;
   }
   throw "Database not foking found 2";
