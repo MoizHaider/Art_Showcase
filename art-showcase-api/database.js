@@ -4,14 +4,16 @@ const MongoClient = mongodb.MongoClient;
 
 let db;
 
-exports.mongoConnect = (cb) => {
+exports.mongoConnect =  (cb) => {
   const dbUrl = process.env.MONGODB_URI;
   MongoClient.connect(`${dbUrl}`, {
     ssl: true,
     serverSelectionTimeoutMS: 10000,
   })
-    .then((client) => {
-      db = client.db("ArtGallery");
+    .then(async (client) => {
+      console.log("MongoDB connected"); // Optional: Log success message
+      db =  client.db("ArtGallery");
+      console.log(db)
       cb()
     })
     .catch((err) => {
@@ -19,12 +21,14 @@ exports.mongoConnect = (cb) => {
     });
 };
 
-exports.dbConnect = async () => {
+exports.dbConnect =  () => {
   if (db) {
+    console.log("only this one runs")
     return db;
   }
   else{
-    await this.mongoConnect()
+    console.log("only this one runs2")
+     this.mongoConnect(()=>{})
     return db;
   }
   throw "Database not foking found 2";
