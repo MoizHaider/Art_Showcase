@@ -20,13 +20,16 @@ exports.mongoConnect = (cb) => {
 };
 
 
-exports.dbConnect = () => {
+exports.dbConnect = async () => {
   if (db) {
     return db;
   }
   else{
-    this.mongoConnect()
-    return db;
+    try {
+      await this.mongoConnect();
+      return db;
+    } catch (error) {
+      throw new Error("Database connection failed: " + error);
+    }
   }
-  throw "Database not foking found 2";
 };
