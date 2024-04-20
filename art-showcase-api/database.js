@@ -19,13 +19,11 @@ exports.mongoConnect = (cb) => {
     });
 };
 
+
 exports.dbConnect = () => {
   if (db) {
-    return db;
+    return Promise.resolve(db);
+  } else {
+    return this.mongoConnect().then(() => db);
   }
-  else{
-    mongoConnect()
-    return db;
-  }
-  throw "Database not foking found 2";
 };
