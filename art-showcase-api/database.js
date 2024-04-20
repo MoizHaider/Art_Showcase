@@ -4,29 +4,32 @@ const MongoClient = mongodb.MongoClient;
 
 let db;
 
-exports.mongoConnect = (cb) => {
+exports.mongoConnect = () => {
   const dbUrl = process.env.MONGODB_URI;
-  MongoClient.connect(`${dbUrl}`, {
+  return MongoClient.connect(`${dbUrl}`, {
     ssl: true,
     serverSelectionTimeoutMS: 10000,
   })
     .then((client) => {
       db = client.db("ArtGallery");
-      cb()
     })
     .catch((err) => {
-      throw "Database not foking found 1";
+      throw new Error("Database connection failed: " + err);
     });
 };
 
-
 exports.dbConnect = () => {
   if (db) {
-    return db;
+    return Promise.resolve(db);
+  } else {
+    return new Promise((resolve, reject) => {
+      this.mongoConnect()
+        .then(() => {
+          resolve(db);
+        })
+        .catch((err) => {
+          reject(new Error("Database connection failed: " + err));
+        });
+    });
   }
-  else{
-    this.mongoConnect()
-    return db;
-  }
-  throw "Database not foking found 2";
 };
