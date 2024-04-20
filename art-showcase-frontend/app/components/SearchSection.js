@@ -17,7 +17,7 @@ export default function SearchSection() {
 
     let newSocket
     if (focus) {
-      newSocket = io(`http://localhost:8080`,{
+      newSocket = io(`${process.env.NEXT_PUBLIC_BACKEND_URL}`,{
        });
       console.log("new socket ", newSocket)
       setSocket(newSocket);

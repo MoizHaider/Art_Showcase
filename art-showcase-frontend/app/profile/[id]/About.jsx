@@ -23,18 +23,22 @@ export default function About({
         const mainElement = document.querySelector(".about");
         if (mainElement) {
           const rect = mainElement.getBoundingClientRect();
-          console.log("rect to", rect.top);
+          console.log("rect to", rect.top, " ", applied, " ", marginTop );
+          
           if (rect.top <= 70 && !applied) {
-            setMarginTop("70px");
+            console.log("inside0")
             setApplied(true)
+            setMarginTop("70px");
+            
           } 
-          else if(rect.top <= 100 && applied){}
-          else if(rect.top > 70 && applied){
+          else if(rect.top <= 70 && applied){console.log("inside1")}
+          else if(rect.top > 70 ){
+            console.log("inside2")
             setMarginTop("0px");
             setApplied(false)
           }
           else {
-            
+            console.log("inside3")
           }
         }
       }
@@ -49,12 +53,12 @@ export default function About({
 
   return (
     <main
-      className="text-gray-800 lg:text-primary lg:w-[40%] xl:w-[35%] lg:sticky lg:top-0 lg:h-[100vh] lg:bg-gray-800  p-[1.5rem]"
+      className="about text-gray-800 lg:text-primary lg:w-[40%] xl:w-[35%] lg:sticky lg:top-0 lg:h-[100vh] lg:bg-gray-800  p-[1.5rem] overflow-x-hidden"
      
     >
       {/* <EditProfileBtn /> */}
 
-      <div className="about flex justify-end "  style={{ marginTop: marginTop }}>
+      <div className=" flex justify-end "  style={{ marginTop: marginTop }}>
         {currentUser && (
           <CreatePostSection
             token={token}

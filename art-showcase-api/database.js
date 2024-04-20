@@ -23,5 +23,9 @@ exports.dbConnect = () => {
   if (db) {
     return db;
   }
+  else{
+    mongoConnect()
+    return db;
+  }
   throw "Database not foking found 2";
 };
