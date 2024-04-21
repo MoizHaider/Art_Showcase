@@ -41,6 +41,7 @@ function CreatePostSection(props) {
     );
  
     dispatch(addPost(postData));
+    setRenderAddPostSec(false);
   };
 
   const createPostHandler = () => {

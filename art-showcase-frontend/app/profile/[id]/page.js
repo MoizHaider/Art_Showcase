@@ -41,8 +41,8 @@ async function page({ params: { id } }) {
   //grid grid-cols-profileDesktopGridCols items-start
   return (
     <>
-      <div className="w-[100vw]">
-        <header className="col-start-1 col-end-3 w-screen h-screen flex flex-col items-center justify-center lg:justify-start relative">
+      <div className="w-full">
+        <header className="col-start-1 col-end-3 w-full h-screen flex flex-col items-center justify-center lg:justify-start relative">
           <div className="relative w-[150px] h-[150px] xs:w-[200px] xs:h-[200px] md:w-[250px] md:h-[250px] lg:w-[300px] lg:h-[300px] rounded-full mt-10 lg:mt-[100px]">
             <Image
               src={`${backendAddress + data.userData.profilePicUrl}`} // Replace with the actual path to your background image

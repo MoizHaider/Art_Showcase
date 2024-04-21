@@ -87,13 +87,8 @@ const homePosts = async (userId, page, db, limit) => {
 
         return post;
       })
-      .toArray((err, result) => {
-        if (err) {
-          console.error(err);
-        } else {
-          return result;
-        }
-      });
+      .toArray();
+
   } else {
     const ttlParts = Math.floor(ttlPosts / 2000);
     const selectedPart = page % ttlParts === 0 ? ttlParts : page % ttlParts;
@@ -118,13 +113,7 @@ const homePosts = async (userId, page, db, limit) => {
         }
         return post;
       })
-      .toArray((err, result) => {
-        if (err) {
-          console.error(err);
-        } else {
-          return result;
-        }
-      });
+      .toArray();
   }
 
   return posts;
