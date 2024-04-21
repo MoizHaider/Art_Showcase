@@ -11,7 +11,7 @@ const client = new MongoClient(dbUrl, { useNewUrlParser: true });
   try {
     await client.connect();
     db = client.db("ArtGallery");
-
+    console.log("db connected")
     cb();
   } catch (err) {
     throw "Database not foking found 1";
@@ -24,8 +24,7 @@ exports.dbConnect = () => {
     return db;
   } else {
     console.log("only this one runs2");
-    this.mongoConnect(() => {});
-    return db;
+    return this.mongoConnect(() => {}).then(()=>{return db});
   }
   throw "Database not foking found 2";
 };
