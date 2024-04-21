@@ -4,32 +4,28 @@ const MongoClient = mongodb.MongoClient;
 
 let db;
 
-exports.mongoConnect = (cb) => {
+
+exports.mongoConnect = async (cb) => {
   const dbUrl = process.env.MONGODB_URI;
-  return MongoClient.connect(`${dbUrl}`, {
-    ssl: true,
-    serverSelectionTimeoutMS: 10000,
-  })
-    .then((client) => {
-      console.log("MongoDB connected");
-      db =  client.db("ArtGallery"); // Return database object
-      cb()
-      return db;
-    })
-    .catch((err) => {
-      throw new Error("Database connection failed: " + err);
-    });
+const client = new MongoClient(dbUrl, { useNewUrlParser: true });
+  try {
+    await client.connect();
+    db = client.db("ArtGallery");
+
+    cb();
+  } catch (err) {
+    throw "Database not foking found 1";
+  }
 };
 
 exports.dbConnect = () => {
   if (db) {
-    console.log("Only this one runs");
-    return db; // No need for async or await here
+    console.log("only this one runs");
+    return db;
   } else {
-    console.log("Only this one runs2");
-    return this.mongoConnect().then((database) => {
-      db = database;
-      return db;
-    });
+    console.log("only this one runs2");
+    this.mongoConnect(() => {});
+    return db;
   }
+  throw "Database not foking found 2";
 };
