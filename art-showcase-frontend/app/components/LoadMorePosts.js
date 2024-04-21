@@ -18,28 +18,39 @@ function LoadMorePosts(props) {
 
   const profilePostsFun = async () => {
     const nextPage = profilePagesLoaded + 1;
-    const newFetchedPosts =
-      (await GetProfilePosts(nextPage, props.userId, props.token, false)) ?? [];
-    setProfilePosts((posts) => {
-      return [...posts, ...newFetchedPosts];
-    });
-    setProfilePagesLoaded((pagesLoad) => pagesLoad + 1);
+    try {
+      const newFetchedPosts =
+        (await GetProfilePosts(nextPage, props.userId, props.token, false)) ??
+        [];
 
-    !(newFetchedPosts.length > 0) ? setShow(false) : null;
+      setProfilePosts((posts) => {
+        return [...posts, ...newFetchedPosts];
+      });
+      setProfilePagesLoaded((pagesLoad) => pagesLoad + 1);
+
+      !(newFetchedPosts.length > 0) ? setShow(false) : null;
+    } catch (err) {
+      setShow(false);
+    }
   };
 
   const homePostsFun = async () => {
     const nextPage = homePagesLoaded + 1;
-    const newFetchedPosts = await GetHomePosts(
-      props.userId,
-      nextPage,
-      props.token,
-      false
-    );
 
-    !(newFetchedPosts.length > 0) ? setShow(false) : null;
-    setHomePosts((posts) => [...posts, ...newFetchedPosts]);
-    setHomePagesLoaded((page) => page + 1);
+    try {
+      const newFetchedPosts = await GetHomePosts(
+        props.userId,
+        nextPage,
+        props.token,
+        false
+      );
+
+      !(newFetchedPosts.length > 0) ? setShow(false) : null;
+      setHomePosts((posts) => [...posts, ...newFetchedPosts]);
+      setHomePagesLoaded((page) => page + 1);
+    } catch (err) {
+      setShow(false)
+    }
   };
 
   useEffect(() => {
