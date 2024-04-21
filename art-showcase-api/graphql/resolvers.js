@@ -1,4 +1,4 @@
-const { dbConnect } = require("../database");
+const {  dbConnect } = require("../database");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mongodb = require("mongodb");
@@ -132,7 +132,7 @@ const homePosts = async (userId, page, db, limit) => {
 
 module.exports = {
   getHomePosts: async (args, req) => {
-    const db = dbConnect();
+    const db = await dbConnect();
     if ((req.isAuth = false)) {
       const error = new Error("Not Authenticated");
       error.code = 400;
@@ -145,7 +145,7 @@ module.exports = {
     };
   },
   getProfilePosts: async (args, req) => {
-    const db = dbConnect();
+    const db = await dbConnect();
     if ((req.isAuth = false)) {
       const error = new Error("Not Authenticated");
       error.code = 400;
@@ -165,7 +165,7 @@ module.exports = {
   },
   homeLoadQuery: async (args, req) => {
     console.log("homw load")
-    const db = dbConnect();
+    const db =  await dbConnect();
     if ((req.isAuth = false)) {
       const error = new Error("Not Authenticated");
       error.code(400);
@@ -190,7 +190,7 @@ module.exports = {
       error.code = 400;
       throw error;
     }
-    const db = dbConnect();
+    const db = await dbConnect();
 
     const userData = await db
       .collection("usersData")
@@ -207,7 +207,7 @@ module.exports = {
   },
   async login({ email, password }, req) {
     console.log("login res running")
-    const db = dbConnect();
+    const db = await dbConnect();
     const userData = await db
       .collection("usersData")
       .find({ email: email })
@@ -240,7 +240,7 @@ module.exports = {
   async signup({ email, password, confirmPassword }, req) {
     const hashPass = await bcrypt.hash(password, 12);
     try {
-      const db = dbConnect();
+      const db = await dbConnect();
       await db
         .collection("usersData")
         .findOne({ email: email })
@@ -294,7 +294,7 @@ module.exports = {
       error.code = 400;
       throw error;
     }
-    const db = dbConnect();
+    const db = await dbConnect();
 
     if (args.liked) {
       //deleted like from db
@@ -337,7 +337,7 @@ module.exports = {
   },
   async addComment(args, req) {
     const nanoid = getNanoid();
-    const db = dbConnect();
+    const db = await dbConnect();
     const insertedId = new ObjectId();
     const insertData = {
       commentId: insertedId,
@@ -376,7 +376,7 @@ module.exports = {
       throw error;
     }
 
-    const db = dbConnect();
+    const db = await dbConnect();
 
     const newCommentsIds = args.newComments.map(
       (comment) => new ObjectId(comment)
@@ -434,7 +434,7 @@ module.exports = {
       throw error;
     }
 
-    const db = dbConnect();
+    const db = await dbConnect();
     const newScore = calcScore(db, args.postId, "comment", false);
     const response = await db.collection("posts").updateOne(
       {

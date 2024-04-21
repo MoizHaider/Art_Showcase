@@ -12,7 +12,7 @@ const auth = require("./middleware/auth");
 var cors = require("cors");
 const { setDate, getDate } = require("./Utils/Date");
 
-const dbConnect  = require("./database").dbConnect;
+const { dbConnect}  = require("./database");
 
 const Fuse = require("fuse.js");
 const dotenv = require("dotenv");
@@ -103,7 +103,7 @@ const fuseOptions = {
 
 const performSearch = async (query) => {
   console.log("search query ", query);
-  let db = dbConnect();
+  let db = await dbConnect();
   const documents = await db
     .collection("usersData")
     .find({})

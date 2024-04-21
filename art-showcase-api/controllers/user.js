@@ -1,16 +1,16 @@
 const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
-const { dbConnect } = require("../database");
+const {  dbConnect } = require("../database");
 const {getDate} =  require("../Utils/Date")
 
-exports.addUserDetails = (req, res, next) => {
+exports.addUserDetails = async (req, res, next) => {
   if ((req.isAuth = false)) {
     const error = new Error("Not Authenticated");
     error.code = 400;
     throw error;
   }
   const objId = new ObjectId(req.body._id)
-  const db = dbConnect();
+  const db = await dbConnect();
   db.collection("usersData")
     .updateOne(
       { _id: objId },
@@ -60,7 +60,7 @@ exports.addNewPost = async (req, res, next) => {
       profilePicUrl: profilePicUrl
     },
   };
-  const db = dbConnect();
+  const db = await dbConnect();
   let response = {
     postId: null,
     userId: null,
