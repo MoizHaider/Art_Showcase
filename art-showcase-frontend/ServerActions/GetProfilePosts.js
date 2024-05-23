@@ -89,6 +89,6 @@ export default async function GetProfilePosts( page, userId, token, initialLoad)
 
   const profileData = await response.json();
   const data = initialLoad == true ? profileData.data.profileLoadQuery: profileData.data.getProfilePosts.posts;
-
+  console.log("profileData", data)
   return data;
 }

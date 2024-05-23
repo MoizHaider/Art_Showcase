@@ -1,7 +1,30 @@
 "use server";
 
-export default async function getComments(token, postId, userId, page, newComments) {
-  const newCommentsIds = newComments.map(comment=> comment.commentId)
+export default async function getComments(
+  token,
+  postId,
+  userId,
+  page,
+  newComments
+) {
+  console.log(
+    "get comment console ",
+    token,
+    " > ",
+    postId,
+    " > ",
+    userId,
+    " > ",
+    page
+  );
+  
+  let newCommentsIds;
+  if (newComments) {
+    newCommentsIds = newComments.map((comment) => comment.commentId);
+  } else {
+    newCommentsIds = [];
+  }
+
   const graphqlQuery = {
     query: `query getCommentsQuery($postId: ID, $userId: ID, $page: Int, $newComments: [ID]){
               getComments(postId: $postId, userId: $userId, page: $page, newComments: $newComments){
@@ -19,7 +42,7 @@ export default async function getComments(token, postId, userId, page, newCommen
       postId,
       userId,
       page: page,
-      newComments: newCommentsIds
+      newComments: newCommentsIds,
     },
   };
   const response = await fetch(`${process.env.BACKEND_URL}/graphql`, {
@@ -30,8 +53,8 @@ export default async function getComments(token, postId, userId, page, newCommen
       "Content-Type": "application/json",
     },
     body: JSON.stringify(graphqlQuery),
-  })
-  const result = await response.json()
+  });
+  const result = await response.json();
 
   return result.data.getComments;
 }

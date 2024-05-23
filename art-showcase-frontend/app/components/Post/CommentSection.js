@@ -33,9 +33,13 @@ function CommentSection(props) {
       },
     };
     setComment("")
-    props.setNewComments((prevComments) => [commentsData, ...prevComments]);
-  };
-
+   props.setNewComments((prevComments) => {
+      if (!Array.isArray(prevComments)) {
+        return [commentsData];
+      }
+      return [commentsData, ...prevComments];
+    });
+  }
   return (
     <>
       <div className="space-y-4">

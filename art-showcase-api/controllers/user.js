@@ -1,7 +1,7 @@
 const mongodb = require("mongodb");
 const ObjectId = mongodb.ObjectId;
-const {  dbConnect } = require("../database");
-const {getDate} =  require("../Utils/Date")
+const { dbConnect } = require("../database");
+const { getDate } = require("../Utils/Date");
 
 exports.addUserDetails = async (req, res, next) => {
   if ((req.isAuth = false)) {
@@ -9,38 +9,54 @@ exports.addUserDetails = async (req, res, next) => {
     error.code = 400;
     throw error;
   }
-  const objId = new ObjectId(req.body._id)
+  
+  const { name, title, _id, profileUrl, backgroundUrl, about } = req.body;
+
+  console.log("body", req.body)
+
+  console.log(name);
+  console.log(title);
+
+  console.log("profile ", profileUrl);
+  console.log("bg ", backgroundUrl);
+  console.log("id ", _id)
+  console.log("id ", about)
+
+  const objId = new ObjectId(_id);
   const db = await dbConnect();
-  db.collection("usersData")
-    .updateOne(
+  try {
+    const response = await db.collection("usersData").updateOne(
       { _id: objId },
       {
         $set: {
-          name: req.body.name,
-          title: req.body.title,
-          profilePicUrl: req.files.profileImg[0].path,
-          backgroundImgUrl: req.files.backgroundImg[0].path,
-          about: req.body.about,
+          name: name,
+          title: title,
+          profilePicUrl: profileUrl,
+          backgroundImgUrl: backgroundUrl,
+          about: about,
         },
       }
-    )
-    .then(() => res.status(200).send({ message: "success" }));
+    );
+
+    console.log("update data", response);
+    res.status(200).send({ message: "success" });
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 exports.addNewPost = async (req, res, next) => {
-
   if (!req.isAuth) {
     throw new Error("not authenticated");
   }
-  
+  console.log("runiing");
   const objId = new ObjectId(req.get("userId"));
   const email = req.get("email");
   const name = req.get("name");
-  const profilePicUrl = req.get("profilePicUrl")
-  const postNames = JSON.parse(req.get("imgNames"));
-  const postUrls = postNames.map(name=>"public\\images\\"+getDate()+"-"+name);
- 
-  const title = req.get("title")
+  const profilePicUrl = req.get("profilePicUrl");
+  const postUrls = JSON.parse(req.get("urls"));
+
+  const title = req.get("title");
   const description = req.get("description");
   const newPost = {
     urls: postUrls,
@@ -57,7 +73,7 @@ exports.addNewPost = async (req, res, next) => {
       _id: objId,
       email: email,
       name: name,
-      profilePicUrl: profilePicUrl
+      profilePicUrl: profilePicUrl,
     },
   };
   const db = await dbConnect();
@@ -66,21 +82,20 @@ exports.addNewPost = async (req, res, next) => {
     userId: null,
     email: null,
   };
-  const postInsrtRes = await db.collection("posts")
-    .insertOne(newPost)
+  const postInsrtRes = await db.collection("posts").insertOne(newPost);
   const userPostInsrtRes = await db.collection("usersData").updateOne(
-        { _id: objId },
-        {
-          $push: {
-            posts: {
-              $each: [postInsrtRes.insertedId.toString()],
-              $position: 0,
-            },
-          },
-        }
-      );
-      
-      newPost._id = postInsrtRes.insertedId.toString()
-      res.json(newPost);
-    next();
+    { _id: objId },
+    {
+      $push: {
+        posts: {
+          $each: [postInsrtRes.insertedId.toString()],
+          $position: 0,
+        },
+      },
+    }
+  );
+
+  newPost._id = postInsrtRes.insertedId.toString();
+  res.json(newPost);
+  next();
 };

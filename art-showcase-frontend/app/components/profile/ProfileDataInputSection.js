@@ -3,34 +3,68 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { storage } from "@/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function ProfileDataInputSection({ type }) {
-  
   const [profileImgUrl, setProfileImgUrl] = useState();
   const [backgroundImgUrl, setBackgroundImgUrl] = useState();
   const [profileImg, setProfileImg] = useState();
   const [backgroundImg, setBackgroundImg] = useState();
+
   const router = useRouter();
 
-  let email;
-  let _id;
+  const [_id, setId] = useState();
+  const [email, setEmail] = useState();
 
-  useEffect(()=>{
-    email = localStorage.getItem("email");
-    _id = localStorage.getItem("_id");
-  },[])
-
+  useEffect(() => {
+    let e_mail = localStorage.getItem("email");
+    let id = localStorage.getItem("_id");
+    setId(id);
+    setEmail(e_mail);
+  }, []);
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
+    const profileImg = event.currentTarget.profileImg.files[0];
+    const backgroundImg = event.currentTarget.backgroundImg.files[0];
+    const name = event.currentTarget.name.value;
+    const title = event.currentTarget.title.value;
+    const about = event.currentTarget.about.value;
 
+    const currentTime = Math.floor(Date.now() / 1000).toString();
+
+    const profileRef = ref(storage, `${profileImg.name}-${currentTime}`);
+    await uploadBytes(profileRef, profileImg);
+    const profileUrl = await getDownloadURL(profileRef);
+
+    const backgroundRef = ref(storage, `${backgroundImg.name}-${currentTime}`);
+    await uploadBytes(backgroundRef, backgroundImg);
+    const backgroundUrl = await getDownloadURL(backgroundRef);
+
+    console.log("profile url ", profileUrl);
+    console.log("background url ", backgroundUrl);
+    console.log("name ", name);
+    console.log("title ", title);
+    console.log("about ", about);
+    console.log("id ", _id);
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/create-user-details`,
         {
           method: "post",
-          body: formData,
+          body:JSON.stringify({
+            name: name,
+            title: title,
+            _id,
+            profileUrl,
+            backgroundUrl,
+            about: about,
+          }),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
         }
       );
 
@@ -157,7 +191,7 @@ function ProfileDataInputSection({ type }) {
             ></textarea>
           </div>
 
-          <input type="hidden" name="_id" value={_id} />
+          
 
           <button
             type="submit"

@@ -5,9 +5,19 @@ import CommentSection from "./CommentSection";
 import Image from "next/image";
 import Comments from "./Comments";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "./styles.css";
+
+import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 
 function Post(props) {
   //render list of data revieved from page.js
+  console.log("created post id ", props.postId);
   const token = props.token;
   const imgRef = useRef();
   const [isLandscape, setIsLandscape] = useState(null);
@@ -17,13 +27,9 @@ function Post(props) {
   const [commentsData, setCommentsData] = useState([]);
   const [commentPageLoaded, setCommentPageLoaded] = useState(1);
 
-  let imgUrl;
-
-  imgUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/` + props.urls[0];
-
   let profilePicUrl;
 
-  profilePicUrl = `${process.env.NEXT_PUBLIC_BACKEND_URL}/` + props.userData.profilePicUrl;
+  profilePicUrl = props.userData.profilePicUrl;
 
   const handleImageLoad = () => {
     const imgElement = imgRef.current;
@@ -32,13 +38,15 @@ function Post(props) {
     setImgWidth(landscape ? 700 : 550);
     setIsLandscape(landscape);
   };
-console.log("profile Props",props);
+  console.log("profile Props", props);
   return (
     <div className={`w-full lg:w-auto flex justify-center`}>
-      <div className={`flex flex-wrap flex-col gap-y-2 md:gap-y-2 px-4 py-6 bg-white w-full max-w-[95%] sm:max-w-[90%]  md:w-[700px]`}>
+      <div
+        className={`flex flex-wrap flex-col gap-y-2 md:gap-y-2 px-4 py-6 bg-white w-full max-w-[95%] sm:max-w-[90%]  md:w-[700px]`}
+      >
         <div className="w-[100%] bottom-0">
           <Link
-            href = {`/profile/${props.userData._id || props.userId}`}
+            href={`/profile/${props.userData._id || props.userId}`}
             className={`mb-2 rounded-full flex justify-start gap-x-4 items-center`}
           >
             <div className="w-[40px] h-[40px]  md:w-[50px] md:h-[50px] rounded-full">
@@ -52,22 +60,41 @@ console.log("profile Props",props);
             </div>
             <div>
               {" "}
-              <p className={`font-bold  text-md md:text-xl`}>{props.userData.name}</p>
-              <p className={`text-sm md:text-lg" text-gray-500`}>{props.creationDate}</p>
+              <p className={`font-bold  text-md md:text-xl`}>
+                {props.userData.name}
+              </p>
+              <p className={`text-sm md:text-lg" text-gray-500`}>
+                {props.creationDate}
+              </p>
             </div>
           </Link>
         </div>
-
-        <div className="w-[100%] max-h-[300px] md:max-h-[400px] max-w-[700px] flex justify-center  rounded-[10px]">
-          <Image
-            src={imgUrl}
-            alt="image"
-            width={500}
-            height={500}
-            className="w-full border-none object-cover shadow-[0px_0px_10px_black]"
-            onLoad={handleImageLoad}
-            ref={imgRef}
-          />
+        <div className="w-[100%]   max-h-[300px] md:max-h-[400px] max-w-[700px] flex justify-center  rounded-[10px]">
+          <Swiper
+            cssMode={true}
+            navigation={true}
+            pagination={true}
+            mousewheel={true}
+            keyboard={true}
+            modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+            className="mySwiper"
+          >
+            {props.urls.map((url) => {
+              return (
+                <SwiperSlide>
+                  <Image
+                    src={url}
+                    alt="image"
+                    width={500}
+                    height={500}
+                    className="w-full  border-none object-cover shadow-[0px_0px_10px_black]"
+                    onLoad={handleImageLoad}
+                    ref={imgRef}
+                  />
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
         </div>
 
         <PostBtns
@@ -101,6 +128,7 @@ console.log("profile Props",props);
           setCommentPageLoaded={setCommentPageLoaded}
           commentPageLoaded={commentPageLoaded}
           newComments={newComments}
+          setNewComments = {setNewComments}
         />
 
         <CommentSection

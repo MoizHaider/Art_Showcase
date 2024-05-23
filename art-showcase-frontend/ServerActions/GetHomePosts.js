@@ -77,7 +77,9 @@ export default async function GetHomePosts(userId, page, token, initialLoad) {
         },
         body: JSON.stringify(graphqlQuery),
       });
-      const data = await response.json();
+     
+      const data = await response.json()
       console.log("home daat", data)
+      
   return initialLoad === true?data.data.homeLoadQuery: data.data.getHomePosts.posts
 }

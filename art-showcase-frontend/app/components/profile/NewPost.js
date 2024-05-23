@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import Post from "../Post/Post";
 export default function NewPost(props) {
   const postsData = useSelector((state) => state.postReducer.posts);
+  console.log("updated state ", postsData)
+  console.log("new posts sec ", props.token)
 
   return (
     <>

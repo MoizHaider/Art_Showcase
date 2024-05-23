@@ -1,7 +1,7 @@
 "use server";
 
-export default async function CreatePost(formData, token, userData, postInfo, imgNames) {
-
+export default async function CreatePost(formData, token, userData, postInfo, urls) {
+console.log("wrls", urls)
   const response = await fetch(`${process.env.BACKEND_URL}/add-post`, {
     method: "post",
     headers: {
@@ -12,16 +12,13 @@ export default async function CreatePost(formData, token, userData, postInfo, im
       profilePicUrl: userData.profilePicUrl,
       title: postInfo.title,
       description: postInfo.description,
-      imgNames: JSON.stringify(imgNames)
+      urls: JSON.stringify(urls)
     },
-    body: formData,
   });
   if (!response.ok) {
     throw new Error("Http error! status: ${response.status}");
   }
   const result = await response.json();
-  
-
-  
+  console.log("new post ", result)
   return result;
 }

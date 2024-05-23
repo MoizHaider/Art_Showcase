@@ -144,7 +144,7 @@ function Signup() {
               >
                 Signup
               </button>
-              {data.status === 500 && (
+              {data.status != null && data.status === 500 && (
                 <div className="border-red-500 border-[1px] rounded-full px-4 py-1 bg-red-500 bg-opacity-50 text-white">
                   Email Already Exists !
                 </div>

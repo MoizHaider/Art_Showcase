@@ -46,7 +46,7 @@ export default function SearchSection() {
   //console.log("search results ", results)
   return (
     // SearchSection.js
-    <div className="w-[70%] relative sm:w-[50%] md:w-[40%] lg:w-full">
+    <div className="w-[70%] relative sm:w-[50%] md:w-[40%] lg:w-full ">
       <div className="lg:mb-4 w-full lg:w-full flex gap-4">
         <input
           type="text"

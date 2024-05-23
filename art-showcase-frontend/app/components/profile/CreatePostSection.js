@@ -5,21 +5,39 @@ import { addPost } from "../../GlobalRedux/Features/PostsSlice";
 import { useDispatch } from "react-redux";
 import CreatePost from "@/ServerActions/CreatePost";
 import Modal from "../Modal";
+import { useRef } from "react";
+import { storage } from "@/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 function CreatePostSection(props) {
+  // const inputRef = useRef(null);
   const [renderAddPostSec, setRenderAddPostSec] = useState(false);
   const dispatch = useDispatch();
 
   const addPostHandler = async (event) => {
     event.preventDefault();
+    // const files = inputRef.current.files;
 
     const formData = new FormData(event.currentTarget);
     const filesArray = Array.from(event.currentTarget.postImages.files);
+
     const imgNames = filesArray.map((file) => file.name);
+
     const title = event.currentTarget.title.value;
-    const descritpion = event.currentTarget.description.value;
+    const description = event.currentTarget.description.value;
+
     const imgUrls = filesArray.map((file) => {
       return URL.createObjectURL(file);
     });
+
+    const currentTime = Math.floor(Date.now() / 1000).toString(); // Convert milliseconds to seconds
+    const urls = await Promise.all(filesArray.map(async (file) => {
+      const fileRef = ref(storage, `${file.name}-${currentTime}`);
+      await uploadBytes(fileRef, file);
+      const downloadURL = await getDownloadURL(fileRef);
+      return downloadURL;
+    }));
+    
 
     const userData = {
       userId: props.userId,
@@ -28,8 +46,8 @@ function CreatePostSection(props) {
       profilePicUrl: props.profilePicUrl,
     };
     const postInfo = {
-      title: event.currentTarget.title.value,
-      description: event.currentTarget.description.value,
+      title,
+      description,
       imgUrls,
     };
     const postData = await CreatePost(
@@ -37,9 +55,10 @@ function CreatePostSection(props) {
       props.token,
       userData,
       postInfo,
-      imgNames
+      urls
     );
- 
+    console.log("post Data ", postData)
+
     dispatch(addPost(postData));
     setRenderAddPostSec(false);
   };
@@ -51,7 +70,7 @@ function CreatePostSection(props) {
   return (
     <>
       {renderAddPostSec ? (
-        <Modal isOpen = {true}>
+        <Modal isOpen={true}>
           <div
             className={`z-20 absolute top-0 left-0 h-full flex items-center  bg-black bg-opacity-40 justify-center  w-[100vw] ${
               renderAddPostSec ? "block" : "hidden"
@@ -71,7 +90,12 @@ function CreatePostSection(props) {
               <form onSubmit={addPostHandler} className="space-y-4 text-text">
                 <div className="flex flex-col">
                   <label>Upload Photo</label>
-                  <input type="file" name="postImages" multiple />
+                  <input
+                    type="file"
+                    name="postImages"
+                    // ref={inputRef}
+                    multiple
+                  />
                 </div>
 
                 <div>

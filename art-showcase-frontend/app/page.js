@@ -36,7 +36,7 @@ let isToken =  cookies().get("token");
   return (
     <div className="grid mt-[50px] lg:mt-[70px] bg-white grid-cols-1 lg:grid-cols-3">
       {/* Search Section Sidebar */}
-      <aside className="bg-gray-800 flex justify-between items-center lg:block lg:col-span-1 fixed lg:sticky top-0 lg:top-[70px]  lg:h-screen  p-2 sm:p-4 w-full h-[60px] sm:h-[70px] lg:w-[85%] xl:w-[85%]">
+      <aside className="z-40 md:z-10 bg-gray-800 flex justify-between items-center lg:block lg:col-span-1 fixed lg:sticky top-0 lg:top-[70px]  lg:h-screen  p-2 sm:p-4 w-full h-[60px] sm:h-[70px] lg:w-[85%] xl:w-[85%]">
         <div className="block lg:hidden flex gap-x-4 items-center ml-4">
           <Image
             src="/logo.png"

@@ -12,35 +12,34 @@ const auth = require("./middleware/auth");
 var cors = require("cors");
 const { setDate, getDate } = require("./Utils/Date");
 
-const { dbConnect}  = require("./database");
+const { dbConnect } = require("./database");
 
 const Fuse = require("fuse.js");
 const dotenv = require("dotenv");
 const mongoObj = require("./database");
 const socketio = require("socket.io");
 
-
 const app = express();
 
 dotenv.config();
 
-const fileStorage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, "public/images");
-  },
-  filename(req, file, cb) {
-    console.log("File fieldname:", file.fieldname);
-    console.log("File originalname:", file.originalname);
-    cb(null, getDate() + "-" + file.originalname);
-  },
-});
+// const fileStorage = multer.diskStorage({
+//   destination(req, file, cb) {
+//     cb(null, "public/images");
+//   },
+//   filename(req, file, cb) {
+//     console.log("File fieldname:", file.fieldname);
+//     console.log("File originalname:", file.originalname);
+//     cb(null, getDate() + "-" + file.originalname);
+//   },
+// });
 
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const upload = multer({ storage: fileStorage });
+// const upload = multer({ storage: fileStorage });
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -58,25 +57,15 @@ app.use((req, res, next) => {
 app.use(auth);
 
 app.post(
-  // could not use multer here as adding (upload.array("postImages", 10)) or any other method wasn't running
-  "/add-post", // ruuning the controller function so I did it manually passing the post names in the header from front..
-  (req, res, next) => {
-    setDate(Date.now());
-    next();
-  },
+  "/add-post", 
   userController.addNewPost
 );
-app.post("/add-post", upload.array("postImages", 10));
 
 app.post(
   "/create-user-details",
-  upload.fields([
-    { name: "profileImg", maxCount: 1 },
-    { name: "backgroundImg", maxCount: 1 },
-  ]),
+
   userController.addUserDetails
 );
-
 
 app.use(
   "/graphql",
@@ -123,15 +112,14 @@ app.use((error, req, res, next) => {
   const data = error.data;
   res.status(status).json({ message: message, data: data });
 });
-let server
+let server;
 const PORT = process.env.PORT || 8080;
 
-mongoObj.mongoConnect(()=>{
+mongoObj.mongoConnect(() => {
   server = app.listen(PORT, () => {
     console.log("listening on port 8080");
   });
 });
-
 
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
@@ -155,7 +143,5 @@ io.on("connection", (socket) => {
     console.log("Client disconnected");
   });
 });
-
-
 
 module.exports = app;

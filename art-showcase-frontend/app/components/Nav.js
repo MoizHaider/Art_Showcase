@@ -11,8 +11,6 @@ function Nav() {
   const pathName = usePathname();
   const router = useRouter();
   const userId = cookie.get ? cookie.get("userId") : null;
- 
-
 
   // List of routes where you want to hide the navigation
   const routesWithoutNavigation = ["/login", "/signup", "/profile-data-input"];
@@ -26,6 +24,7 @@ function Nav() {
     cookie.set("profilePicUrl", "");
     router.replace("/login");
   };
+  console.log("this is path ", pathName);
   return (
     <>
       {shouldRenderNavigation && (
@@ -51,15 +50,17 @@ function Nav() {
             </div>
 
             <div className="text-md lg:text-lg flex gap-x-6 items-center w-full lg:w-fit justify-around">
-              <Link href="/" className="mr-4 flex gap-x-1">
+              <Link href="/" className="mr-4 flex gap-x-1  relative ">
+                {pathName === "/" && <div className="w-full h-1 bg-red-500 absolute -top-[15px] md:-bottom-[21px] md:top-auto"></div>}
                 <Image width={25} height={25} alt="icon" src="/homeIcon.png" />
-                Home
+                <p>Home</p>
               </Link>
 
               <Link
                 href={`/profile/${userId}`}
-                className="mr-4 active:bg-accent flex gap-x-1"
+                className="mr-4 active:bg-accent flex gap-x-1 relative"
               >
+                {pathName != "/" && <div className="w-full h-1 bg-red-500 absolute -top-[15px] md:-bottom-[21px] md:top-auto"></div>}
                 <Image width={25} height={25} alt="icon" src="/userIcon.png" />
                 Profile
               </Link>

@@ -45,7 +45,7 @@ async function page({ params: { id } }) {
         <header className="col-start-1 col-end-3 w-full h-screen flex flex-col items-center justify-center lg:justify-start relative">
           <div className="relative w-[150px] h-[150px] xs:w-[200px] xs:h-[200px] md:w-[250px] md:h-[250px] lg:w-[300px] lg:h-[300px] rounded-full mt-10 lg:mt-[100px]">
             <Image
-              src={`${backendAddress + data.userData.profilePicUrl}`} // Replace with the actual path to your background image
+              src={`${data.userData.profilePicUrl}`} // Replace with the actual path to your background image
               alt="Profile Image"
               layout="fill"
               objectFit="cover"
@@ -62,7 +62,7 @@ async function page({ params: { id } }) {
             </h2>
           </div>
           <Image
-            src={`${backendAddress + data.userData.backgroundImgUrl}`} // Replace with the actual path to your full-width image
+            src={`${data.userData.backgroundImgUrl}`} // Replace with the actual path to your full-width image
             alt="Full Width Image"
             layout="fill"
             objectFit="cover"
@@ -73,7 +73,7 @@ async function page({ params: { id } }) {
           <About token = {token} userId = {userId} email = {email} name = {name} profilePicUrl = {profilePicUrl} data = {data} currentUser = {currentUser}/>
           <main className="w-full p-2 flex flex-col items-center  gap-y-10">
             <div className=" md:w-full  grid grid-cols-1 gap-y-5 justify-center">
-              <NewPost data={data} userData={userData} />
+              <NewPost data={data} userData={userData} token={token}/>
               {data
                 ? data.posts.length > 0
                   ? data.posts.map((post) => (

@@ -3,18 +3,35 @@ import Comment from "./Comment";
 import LoadMoreComments from "./LoadMoreComments";
 
 export default function Comments(props) {
-
   return (
     <div className="max-h-[20rem] overflow-y-auto  mt-4">
       {props.newComments.length > 0
         ? props.newComments.map((commentData) => (
-            <Comment commentData={commentData} key={Math.random()} token = {props.token} postId = {props.postId} />
+            <Comment
+              commentData={commentData}
+              key={Math.random()}
+              newComments={props.newComments}
+              setNewComments={props.setNewComments}
+              commentsData={props.commentsData}
+              setCommentsData={props.setCommentsData}
+              token={props.token}
+              postId={props.postId}
+            />
           ))
         : null}
       {props.renderCommentSec ? (
         props.commentsData.length > 0 ? (
           props.commentsData.map((comment) => (
-            <Comment commentData={comment} key={Math.random()} token = {props.token} postId = {props.postId}/>
+            <Comment
+              commentData={comment}
+              newComments={props.newComments}
+              setNewComments={props.setNewComments}
+              commentsData={props.commentsData}
+              setCommentsData={props.setCommentsData}
+              key={Math.random()}
+              token={props.token}
+              postId={props.postId}
+            />
           ))
         ) : (
           <h1>No Comments</h1>
@@ -32,7 +49,7 @@ export default function Comments(props) {
             setCommentPageLoaded={props.setCommentPageLoaded}
             commentPageLoaded={props.commentPageLoaded}
             commentsData={props.commentsData}
-            newComments = {props.newComments}
+            newComments={props.newComments}
           />
         ) : null
       ) : null}
