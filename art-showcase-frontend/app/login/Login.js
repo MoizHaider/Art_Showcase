@@ -52,7 +52,8 @@ function Login() {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
     await loginFun(event);
-    router.push("/");
+    router.prefetch("/");
+    router.push("/")
   };
 
   return (
