@@ -79,9 +79,9 @@ function Post(props) {
             modules={[Navigation, Pagination, Mousewheel, Keyboard]}
             className="mySwiper"
           >
-            {props.urls.map((url) => {
+            {props.urls.map((url, index) => {
               return (
-                <SwiperSlide>
+                <SwiperSlide key={index}>
                   <Image
                     src={url}
                     alt="image"
@@ -128,7 +128,7 @@ function Post(props) {
           setCommentPageLoaded={setCommentPageLoaded}
           commentPageLoaded={commentPageLoaded}
           newComments={newComments}
-          setNewComments = {setNewComments}
+          setNewComments={setNewComments}
         />
 
         <CommentSection
