@@ -29,7 +29,7 @@ async function loginFun(event) {
       password: password,
     },
   };
-  fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`, {
+  await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/graphql`, {
     method: "post",
     headers: {
       "Content-Type": "application/json",
@@ -51,7 +51,10 @@ function Login() {
   const router = useRouter();
   const onSubmitHandler = async (event) => {
     event.preventDefault();
-    await loginFun(event);
+    const loginSuccess = await loginFun(event);
+
+    console.log("login success ", loginSuccess)
+
     router.prefetch("/");
     router.push("/")
   };

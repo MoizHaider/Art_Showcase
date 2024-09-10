@@ -1,12 +1,12 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
-
 import LoadMorePosts from "./components/LoadMorePosts";
 import SearchSection from "./components/SearchSection";
 import { cookies } from "next/headers";
 import Post from "./components/Post/Post";
 import GetHomePosts from "@/ServerActions/GetHomePosts";
+import Auth from "./components/auth/Auth";
 
 import { redirect } from "next/navigation";
 
